@@ -1,0 +1,55 @@
+{
+  "env": {
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "8192",
+    "BASH_DEFAULT_TIMEOUT_MS": "60000",
+    "BASH_MAX_TIMEOUT_MS": "300000",
+    "DISABLE_TELEMETRY": "0",
+    "DISABLE_COST_WARNINGS": "0",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "MAX_THINKING_TOKENS": "32000",
+    "AGENTS_DISABLED": "0",
+    "MCP_TIMEOUT": "120000"
+  },
+  "includeCoAuthoredBy": false,
+  "enableAllProjectMcpServers": false,
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(rg:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run build:*)",
+      "Bash(pnpm test:*)",
+      "Bash(pnpm build:*)",
+      "mcp__MCP_DOCKER__*"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/auth.json)",
+      "Read(**/credentials.json)",
+      "Read(**/*token*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(rm:*)",
+      "Bash(git reset:*)"
+    ],
+    "defaultMode": "default"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/session-start.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

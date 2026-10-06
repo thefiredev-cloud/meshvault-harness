@@ -1,0 +1,7 @@
+# platform	tag	url	sha256	note
+# llama.cpp prebuilt server binaries, pinned. Platform = <os>-<arch>[-<backend>].
+linux-x64	b11430	https://github.com/ggml-org/llama.cpp/releases/download/b11430/llama-b11430-bin-ubuntu-x64.tar.gz	1b898a3b23df35cc6c3e93c3adba5c63ec31d48bee8e5f30639e9372836ec2f2	CPU
+linux-arm64	b11430	https://github.com/ggml-org/llama.cpp/releases/download/b11430/llama-b11430-bin-ubuntu-arm64.tar.gz	bf79c63d0bedebf3b26dcede1992ab65585dd2280e54a5d60196e7dd47a43f89	CPU
+linux-x64-vulkan	b11430	https://github.com/ggml-org/llama.cpp/releases/download/b11430/llama-b11430-bin-ubuntu-vulkan-x64.tar.gz	99652a5a753b4045a885c5c3f5565c05a59d0391ac2cb207a327c7d0f72917f2	Vulkan GPU (NVIDIA/AMD/Intel). Needs libvulkan1 and a Vulkan driver.
+darwin-arm64	b11430	https://github.com/ggml-org/llama.cpp/releases/download/b11430/llama-b11430-bin-macos-arm64.tar.gz	74887f462706d17b01ae701f1e3aa571afa7f629628445d9cdfac923b4fe5b74	Apple Silicon (Metal)
+darwin-x64	b11430	https://github.com/ggml-org/llama.cpp/releases/download/b11430/llama-b11430-bin-macos-x64.tar.gz	6fb60072de5c082c5d3fc5e20b7b2c30f6496a36757d6c70a541c55bd7a6803f	Intel Mac (CPU)

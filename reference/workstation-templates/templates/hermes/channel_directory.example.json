@@ -1,0 +1,14 @@
+{
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "bot_name": "your-telegram-bot",
+      "allowed_chat_ids": ["<telegram-chat-id>"]
+    },
+    "signal": {
+      "enabled": false,
+      "account": "<signal-account>"
+    }
+  }
+}
+

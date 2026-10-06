@@ -1,0 +1,36 @@
+filesystem:
+  paths:
+    - ${WORKSTATION_SAFE_ROOT}
+
+markdownify:
+  paths:
+    - ${WORKSTATION_SAFE_ROOT}
+
+rust-mcp-filesystem:
+  allow_write: true
+  allowed_directories:
+    - ${WORKSTATION_SAFE_ROOT}
+  enable_roots: true
+
+desktop-commander:
+  paths:
+    - ${WORKSTATION_SAFE_ROOT}
+
+resend:
+  reply_to: operator@example.com
+  sender: no-reply@example.com
+
+dockerhub:
+  username: your-dockerhub-username
+
+elevenlabs:
+  data: ${HOME}/.docker-mcp/elevenlabs
+
+prometheus:
+  prometheus_url: http://host.docker.internal:9090
+
+pinecone:
+  assistant_host: ${PINECONE_ASSISTANT_HOST}
+
+github:
+  token: ${GITHUB_PERSONAL_ACCESS_TOKEN}

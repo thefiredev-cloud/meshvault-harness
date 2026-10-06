@@ -1,0 +1,36 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: shell syntax and lint
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+          bash tests/run.sh
+      - name: secret scan
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz | tar -xz gitleaks
+          ./gitleaks git --redact --no-banner
+      - name: reference templates sanitizer
+        run: |
+          python3 reference/workstation-templates/scripts/sanitize-check.py
+          python3 -m unittest discover -s reference/workstation-templates/tests
+  install-smoke:
+    # Installs the real runtime and the smallest model on a clean Ubuntu runner, skipping Hermes/OMP downloads.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: installer (model only) and local answer
+        run: |
+          ./install.sh --yes --model qwen3-1.7b --no-hermes --no-omp --ctx 8192 --no-verify
+          ~/.local/bin/meshvault ask "Reply with exactly: MESHVAULT OK" | tee out.txt
+          grep -qi "meshvault ok" out.txt

@@ -1,0 +1,30 @@
+# Optional mutation-capable tools. Review access, audit logging, and rollback
+# expectations before enabling these in a private deployment.
+
+github:
+  - create_branch
+  - create_pull_request
+  - issue_write
+  - push_files
+
+filesystem:
+  - write_file
+
+obsidian:
+  - append_content
+
+netlify:
+  - deploy
+  - update_environment
+
+supabase:
+  - execute_sql
+  - apply_migration
+
+playwright:
+  - click
+  - fill
+  - evaluate
+
+resend:
+  - send_email

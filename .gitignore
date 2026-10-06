@@ -1,0 +1,10 @@
+.DS_Store
+*.gguf
+*.part
+*.tar.gz
+*.zip
+.env
+.env.*
+node_modules/
+__pycache__/
+pro/*.tar.gz

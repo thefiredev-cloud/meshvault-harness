@@ -1,0 +1,12 @@
+{
+  "gateway": {
+    "status": "stopped",
+    "active_agents": 0,
+    "last_started_at": null
+  },
+  "sessions": {
+    "resume_pending": false,
+    "suspended": false
+  }
+}
+

@@ -1,0 +1,322 @@
+#!/usr/bin/env bash
+# meshvault: manage the local model server, skills and Pro pack for the MeshVault Harness.
+set -eu
+set -o pipefail
+
+SELF="$(readlink "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")"
+case "$SELF" in /*) ;; *) SELF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$SELF" ;; esac
+HARNESS_DIR="$(cd "$(dirname "$SELF")/.." && pwd)"
+# shellcheck source=../lib/common.sh
+. "$HARNESS_DIR/lib/common.sh"
+load_config
+
+RUN_DIR="$MV_HOME/run"
+PID_FILE="$RUN_DIR/llama-server.pid"
+LOG_FILE="$RUN_DIR/llama-server.log"
+
+VERSION="$(cat "$HARNESS_DIR/VERSION" 2>/dev/null || echo dev)"
+
+usage() {
+  cat <<EOF
+meshvault $VERSION: local AI harness (Hermes + OMP + local model + skills)
+
+Usage: meshvault <command>
+
+  status             Is the local model up? Which model, which port.
+  start | stop | restart
+  logs [-f]          Show the model server log.
+  ask "question"     One question straight to the local model.
+  doctor             Check every piece end to end (model, Hermes, OMP, skills).
+  model list         Show catalog models and which fit this machine.
+  model use ID       Switch the default model (downloads it first).
+  skills sync        Copy the bundled skills into Hermes and OMP.
+  skills list        List installed MeshVault skills.
+  pro install FILE   Install the Pro skills pack you bought (tar.gz).
+  autostart on|off   Start the model at login (systemd user unit or launchd).
+  update             Pull the latest harness, then re-sync skills.
+  uninstall          Remove the model server, models and managed skills.
+  version
+EOF
+}
+
+die_if_not_installed() {
+  [ -f "$MV_HOME/config.env" ] || die "not set up yet. Run: $HARNESS_DIR/install.sh"
+}
+
+llama_bin() {
+  if [ -n "${MV_LLAMA_SERVER:-}" ] && [ -x "$MV_LLAMA_SERVER" ]; then echo "$MV_LLAMA_SERVER"; return; fi
+  [ -x "$MV_HOME/runtime/current/llama-server" ] && { echo "$MV_HOME/runtime/current/llama-server"; return; }
+  die "llama-server not found. Rerun the installer."
+}
+
+# Foreground server. Used by systemd/launchd and by `start`.
+cmd_serve() {
+  die_if_not_installed
+  local bin model dir
+  bin="$(llama_bin)"; dir="$(dirname "$bin")"
+  model="$MV_HOME/models/$MV_MODEL_FILE"
+  [ -f "$model" ] || die "model file missing: $model (run: meshvault model use $MV_MODEL_ID)"
+  export LD_LIBRARY_PATH="$dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+  export DYLD_LIBRARY_PATH="$dir${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+  # 127.0.0.1 only: the model is never exposed to the network.
+  exec "$bin" -m "$model" --alias "$MV_ALIAS" --host 127.0.0.1 --port "$MV_PORT" \
+    -c "$MV_CTX" -np 1 -fa on -ctk "${MV_KV:-q8_0}" -ctv "${MV_KV:-q8_0}" --jinja --sleep-idle-seconds 1800
+}
+
+cmd_start() {
+  die_if_not_installed
+  if server_healthy; then ok "model server already up on $(server_url)"; return 0; fi
+  mkdir -p "$RUN_DIR"
+  if have setsid; then setsid "$SELF" serve >"$LOG_FILE" 2>&1 < /dev/null &
+  else nohup "$SELF" serve >"$LOG_FILE" 2>&1 < /dev/null &
+  fi
+  echo $! > "$PID_FILE"
+  local i
+  for i in $(seq 1 180); do
+    if server_healthy; then ok "model server up on $(server_url) (model: $MV_MODEL_ID)"; return 0; fi
+    if ! kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+      warn "model server exited. Last log lines:"; tail -n 15 "$LOG_FILE" >&2 || true
+      die "could not start the model server"
+    fi
+    sleep 2
+  done
+  die "model server did not become healthy in 6 minutes. See: meshvault logs"
+}
+
+cmd_stop() {
+  if [ -f "$PID_FILE" ]; then
+    local pid; pid="$(cat "$PID_FILE")"
+    if kill -0 "$pid" 2>/dev/null; then
+      kill "$pid" 2>/dev/null || true
+      local i; for i in 1 2 3 4 5 6 7 8 9 10; do kill -0 "$pid" 2>/dev/null || break; sleep 1; done
+      kill -9 "$pid" 2>/dev/null || true
+    fi
+    rm -f "$PID_FILE"
+    ok "model server stopped"
+  else
+    say "model server not running (no pid file)"
+  fi
+}
+
+cmd_status() {
+  die_if_not_installed
+  if server_healthy; then ok "model server up: $(server_url)  model=$MV_MODEL_ID  ctx=$MV_CTX"; else say "model server down (start: meshvault start)"; fi
+}
+
+cmd_ask() {
+  die_if_not_installed
+  [ $# -ge 1 ] || die 'usage: meshvault ask "your question"'
+  [ "${MV_MODE:-bundled}" = bundled ] && { server_healthy || cmd_start; }
+  local prompt="$*" body
+  body=$(printf '%s' "$prompt" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' | awk 'BEGIN{ORS="\\n"} {print}')
+  curl -fsS "$(api_base)/chat/completions" -H 'Content-Type: application/json' \
+    -d "{\"model\":\"${MV_MODEL_NAME:-$MV_ALIAS}\",\"max_tokens\":600,\"chat_template_kwargs\":{\"enable_thinking\":false},\"messages\":[{\"role\":\"user\",\"content\":\"$body\"}]}" \
+    | sed -n 's/.*"content":"\(\([^"\\]\|\\.\)*\)".*/\1/p' | sed -e 's/\\n/\n/g' -e 's/\\"/"/g'
+  echo
+}
+
+cmd_logs() {
+  [ -f "$LOG_FILE" ] || die "no log yet: $LOG_FILE"
+  if [ "${1:-}" = "-f" ]; then tail -n 50 -f "$LOG_FILE"; else tail -n 50 "$LOG_FILE"; fi
+}
+
+cmd_model() {
+  die_if_not_installed
+  local sub="${1:-list}"; shift || true
+  local cat="$HARNESS_DIR/catalog/models.tsv" ram; ram="$(ram_gb)"
+  case "$sub" in
+    list)
+      say "This machine: ${ram} GB usable RAM. Current: $MV_MODEL_ID"
+      tsv_rows "$cat" | while IFS=$'\t' read -r id min file url sha bytes note; do
+        local fit="fits"; [ "$ram" -lt "$min" ] && fit="too big (needs ~${min} GB)"
+        printf '  %-20s %5s GB  %s  [%s]\n' "$id" "$(( bytes / 1000000000 ))" "$note" "$fit"
+      done ;;
+    use)
+      local want="${1:-}"; [ -n "$want" ] || die "usage: meshvault model use ID"
+      local row; row="$(tsv_rows "$cat" | awk -F'\t' -v id="$want" '$1==id')"
+      [ -n "$row" ] || die "unknown model '$want'. See: meshvault model list"
+      local id file url sha bytes
+      IFS=$'\t' read -r id _ file url sha bytes _ <<<"$row"
+      download "$url" "$MV_HOME/models/$file" "$sha"
+      sed -i.bak -e "s|^MV_MODEL_ID=.*|MV_MODEL_ID=$id|" -e "s|^MV_MODEL_FILE=.*|MV_MODEL_FILE=$file|" "$MV_HOME/config.env" && rm -f "$MV_HOME/config.env.bak"
+      ok "default model is now $id"
+      load_config; MV_MODEL_ID="$id"
+      cmd_stop; cmd_start ;;
+    *) die "usage: meshvault model list|use ID" ;;
+  esac
+}
+
+# Copy a skills tree into every agent skill root. $1 = source dir, $2 = namespace label.
+sync_skill_tree() {
+  local src="$1" n=0 d name target root
+  [ -d "$src" ] || return 0
+  for d in "$src"/*/; do
+    [ -f "${d}SKILL.md" ] || continue
+    name="$(basename "$d")"
+    for root in "$HOME/.hermes/skills/meshvault" "$HOME/.omp/agent/skills"; do
+      # Only touch hermes if it is installed; only touch omp if it is installed.
+      case "$root" in
+        */.hermes/*) [ -d "$HOME/.hermes" ] || continue ;;
+        */.omp/*)    [ -d "$HOME/.omp" ] || continue ;;
+      esac
+      target="$root/$name"
+      if [ -e "$target" ] && [ ! -f "$target/.meshvault-managed" ]; then
+        warn "skipping $target: a skill you made already lives there"; continue
+      fi
+      rm -rf "$target"; mkdir -p "$target"
+      cp -R "${d}." "$target/"
+      date -u +%Y-%m-%dT%H:%M:%SZ > "$target/.meshvault-managed"
+    done
+    n=$((n+1))
+  done
+  ok "synced $n skill(s) from $2"
+}
+
+cmd_skills() {
+  local sub="${1:-list}"
+  case "$sub" in
+    sync) sync_skill_tree "$HARNESS_DIR/skills" "free pack"
+          [ -d "$MV_HOME/pro/skills" ] && sync_skill_tree "$MV_HOME/pro/skills" "Pro pack" || true ;;
+    list) local found=0 f
+          for f in "$HOME/.hermes/skills/meshvault"/*/.meshvault-managed "$HOME/.omp/agent/skills"/*/.meshvault-managed; do
+            [ -e "$f" ] || continue; found=1; echo "$(basename "$(dirname "$f")")  ($(dirname "$(dirname "$f")" | sed "s|$HOME|~|"))"
+          done
+          [ "$found" = 1 ] || say "no MeshVault skills installed. Run: meshvault skills sync" ;;
+    *) die "usage: meshvault skills sync|list" ;;
+  esac
+}
+
+cmd_pro() {
+  [ "${1:-}" = "install" ] || die "usage: meshvault pro install FILE.tar.gz"
+  local file="${2:-}"; [ -f "$file" ] || die "file not found: $file"
+  local tmp; tmp="$(mktemp -d)"
+  tar -xzf "$file" -C "$tmp" || die "not a valid Pro pack archive"
+  local root; root="$(find "$tmp" -maxdepth 2 -name PRO-LICENSE.md -print -quit | xargs -I{} dirname {})"
+  [ -n "$root" ] && [ -d "$root/skills" ] || { rm -rf "$tmp"; die "archive has no PRO-LICENSE.md and skills/ folder. Is this the MeshVault Pro pack?"; }
+  rm -rf "$MV_HOME/pro"; mkdir -p "$MV_HOME/pro"
+  cp -R "$root/." "$MV_HOME/pro/"
+  rm -rf "$tmp"
+  ok "Pro pack $(cat "$MV_HOME/pro/VERSION" 2>/dev/null || echo '') unpacked to $MV_HOME/pro (license: PRO-LICENSE.md)"
+  cmd_skills sync
+}
+
+cmd_autostart() {
+  die_if_not_installed
+  local mode="${1:-}"
+  case "$(detect_os)" in
+    linux)
+      have systemctl && systemctl --user show-environment >/dev/null 2>&1 || die "systemd user services are not available here. Use: meshvault start"
+      local unit="$HOME/.config/systemd/user/meshvault-llm.service"
+      if [ "$mode" = on ]; then
+        mkdir -p "$(dirname "$unit")"
+        cat > "$unit" <<EOF
+[Unit]
+Description=MeshVault local model server (127.0.0.1:$MV_PORT)
+
+[Service]
+ExecStart=$SELF serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+EOF
+        cmd_stop || true
+        systemctl --user daemon-reload && systemctl --user enable --now meshvault-llm.service
+        ok "autostart on (systemd user unit meshvault-llm)"
+      elif [ "$mode" = off ]; then
+        systemctl --user disable --now meshvault-llm.service 2>/dev/null || true
+        rm -f "$unit"; systemctl --user daemon-reload || true
+        ok "autostart off"
+      else die "usage: meshvault autostart on|off"; fi ;;
+    darwin)
+      local plist="$HOME/Library/LaunchAgents/ai.meshvault.llm.plist"
+      if [ "$mode" = on ]; then
+        mkdir -p "$(dirname "$plist")" "$RUN_DIR"
+        cat > "$plist" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>ai.meshvault.llm</string>
+<key>ProgramArguments</key><array><string>$SELF</string><string>serve</string></array>
+<key>RunAtLoad</key><true/><key>KeepAlive</key><true/>
+<key>StandardOutPath</key><string>$LOG_FILE</string><key>StandardErrorPath</key><string>$LOG_FILE</string>
+</dict></plist>
+EOF
+        cmd_stop || true
+        launchctl unload "$plist" 2>/dev/null || true
+        launchctl load -w "$plist"
+        ok "autostart on (launchd ai.meshvault.llm)"
+      elif [ "$mode" = off ]; then
+        launchctl unload -w "$plist" 2>/dev/null || true; rm -f "$plist"; ok "autostart off"
+      else die "usage: meshvault autostart on|off"; fi ;;
+    *) die "unsupported OS" ;;
+  esac
+}
+
+cmd_doctor() {
+  die_if_not_installed
+  local bad=0
+  check() { # label, command...
+    local label="$1"; shift
+    if "$@" >/dev/null 2>&1; then ok "$label"; else warn "$label FAILED"; bad=1; fi
+  }
+  say "MeshVault Harness $VERSION on $(detect_os)/$(detect_arch), $(ram_gb) GB RAM"
+  if [ "${MV_MODE:-bundled}" = bundled ]; then server_healthy || { say "starting model server..."; cmd_start || bad=1; }; fi
+  check "local model answers" sh -c "curl -fsS --max-time 300 '$(api_base)/chat/completions' -H 'Content-Type: application/json' -d '{\"model\":\"${MV_MODEL_NAME:-$MV_ALIAS}\",\"max_tokens\":8,\"chat_template_kwargs\":{\"enable_thinking\":false},\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' | grep -q choices"
+  if have hermes; then check "hermes installed ($(hermes --version 2>/dev/null | head -n1))" hermes --version
+    check "hermes points at the local model" sh -c "hermes config get model 2>/dev/null | grep -q '${MV_BASE_URL}'"
+  else warn "hermes not installed"; bad=1; fi
+  if have omp; then check "omp installed ($(omp --version 2>/dev/null | head -n1))" omp --version
+  else warn "omp not installed (optional)"; fi
+  local skills; skills="$(cmd_skills list | grep -vc '^no MeshVault' || true)"
+  say "skills installed: $skills"
+  [ "$bad" = 0 ] && ok "everything checks out" || { warn "some checks failed"; exit 1; }
+}
+
+cmd_update() {
+  die_if_not_installed
+  git -C "$HARNESS_DIR" pull --ff-only || die "could not update. Your copy has local changes; see: git -C $HARNESS_DIR status"
+  cmd_skills sync
+  ok "harness updated to $(cat "$HARNESS_DIR/VERSION" 2>/dev/null || echo dev). Hermes and OMP update themselves: hermes update, omp update"
+}
+
+cmd_uninstall() {
+  say "This removes the model server, downloaded models and MeshVault-managed skills."
+  say "It does not remove Hermes or OMP (hermes uninstall / delete ~/.local/bin/omp)."
+  printf 'Type yes to continue: '; read -r ans
+  [ "$ans" = yes ] || die "cancelled"
+  cmd_autostart off 2>/dev/null || true
+  cmd_stop || true
+  local f
+  for f in "$HOME/.hermes/skills/meshvault"/*/.meshvault-managed "$HOME/.omp/agent/skills"/*/.meshvault-managed; do
+    [ -e "$f" ] && rm -rf "$(dirname "$f")"
+  done
+  rm -f "$HOME/.local/bin/meshvault"
+  rm -rf "$MV_HOME"
+  ok "removed. The harness checkout inside $MV_HOME went with it."
+}
+
+main() {
+  local c="${1:-help}"; shift || true
+  case "$c" in
+    serve) cmd_serve "$@" ;;
+    start) cmd_start "$@" ;;
+    stop) cmd_stop "$@" ;;
+    restart) cmd_stop; cmd_start ;;
+    status) cmd_status "$@" ;;
+    logs) cmd_logs "$@" ;;
+    ask) cmd_ask "$@" ;;
+    doctor) cmd_doctor "$@" ;;
+    model) cmd_model "$@" ;;
+    skills) cmd_skills "$@" ;;
+    pro) cmd_pro "$@" ;;
+    autostart) cmd_autostart "$@" ;;
+    update) cmd_update "$@" ;;
+    uninstall) cmd_uninstall "$@" ;;
+    version|--version|-v) echo "meshvault $VERSION" ;;
+    help|--help|-h) usage ;;
+    *) usage >&2; exit 2 ;;
+  esac
+}
+main "$@"

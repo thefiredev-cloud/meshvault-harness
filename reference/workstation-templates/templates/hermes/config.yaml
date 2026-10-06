@@ -1,0 +1,94 @@
+model:
+  default: gpt-5.5
+  provider: openai-codex
+  openai_runtime: codex_app_server
+
+providers: {}
+fallback_providers: []
+credential_pool_strategies: {}
+
+toolsets:
+  - hermes-cli
+
+agent:
+  max_turns: 80
+  gateway_timeout: 1800
+  restart_drain_timeout: 60
+  api_max_retries: 3
+  service_tier: ""
+  tool_use_enforcement: auto
+  gateway_timeout_warning: 900
+  clarify_timeout: 600
+  gateway_notify_interval: 1800
+  gateway_auto_continue_freshness: 3600
+  image_input_mode: auto
+  disabled_toolsets: []
+  verbose: false
+  reasoning_effort: xhigh
+  system_prompt: >
+    You are the operator's local Hermes agent. Be concise, verify facts with tools,
+    keep secrets private, and ask for confirmation before irreversible external actions.
+
+terminal:
+  backend: local
+  modal_mode: auto
+  cwd: .
+  timeout: 7200
+  persistent_shell: true
+  auto_source_bashrc: true
+  docker_image: nikolaik/python-nodejs:python3.11-nodejs20
+  container_cpu: 1
+  container_memory: 5120
+  container_disk: 51200
+  container_persistent: true
+
+web:
+  backend: firecrawl
+  search_backend: ""
+  extract_backend: ""
+  use_gateway: false
+
+browser:
+  inactivity_timeout: 120
+  command_timeout: 30
+  record_sessions: false
+  allow_private_urls: false
+  engine: auto
+  auto_local_for_private_urls: true
+  dialog_policy: must_respond
+  dialog_timeout_s: 300
+  cloud_provider: local
+  use_gateway: false
+
+checkpoints:
+  enabled: true
+  max_snapshots: 50
+  max_total_size_mb: 500
+  max_file_size_mb: 10
+  auto_prune: false
+  retention_days: 7
+  delete_orphans: true
+  min_interval_hours: 24
+
+compression:
+  enabled: true
+  threshold: 0.85
+  target_ratio: 0.2
+  protect_last_n: 20
+  hygiene_hard_message_limit: 400
+
+prompt_caching:
+  cache_ttl: 5m
+
+mcp:
+  gateway_command: docker
+  gateway_args:
+    - mcp
+    - gateway
+    - run
+    - --long-lived
+
+memory:
+  durable_vault_path: ${OBSIDIAN_VAULT_PATH}
+  durable_memory_path: ${OBSIDIAN_VAULT_PATH}/01-memory
+

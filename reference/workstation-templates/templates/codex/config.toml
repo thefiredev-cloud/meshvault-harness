@@ -1,0 +1,70 @@
+model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+service_tier = "fast"
+personality = "pragmatic"
+approvals_reviewer = "user"
+plan_mode_reasoning_effort = "xhigh"
+
+[features]
+external_migration = true
+js_repl = true
+# Durable cross-session memory belongs in Obsidian. Keep local client memory off
+# in the public template unless you need a non-durable runtime bridge.
+memories = false
+prevent_idle_sleep = true
+terminal_resize_reflow = true
+mentions_v2 = true
+
+[mcp_servers.MCP_DOCKER]
+command = "docker"
+args = [
+    "mcp",
+    "gateway",
+    "run",
+    "--servers=obsidian",
+    "--servers=github-official",
+    "--servers=brave",
+    "--servers=context7",
+    "--servers=appstore-intel",
+    "--servers=hig-doctor",
+    "--servers=recon",
+    "--servers=wolfram-mcp",
+]
+env = { PYTHONSAFEPATH = "1" }
+startup_timeout_sec = 180
+
+[notice]
+fast_default_opt_out = true
+hide_full_access_warning = true
+
+[shell_environment_policy]
+inherit = "core"
+
+[shell_environment_policy.set]
+AGENTS_DISABLED = "0"
+BASH_DEFAULT_TIMEOUT_MS = "60000"
+BASH_MAX_TIMEOUT_MS = "300000"
+CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = "1"
+CLAUDE_CODE_MAX_OUTPUT_TOKENS = "8192"
+DISABLE_COST_WARNINGS = "0"
+DISABLE_TELEMETRY = "0"
+MAX_THINKING_TOKENS = "32000"
+MCP_TIMEOUT = "120000"
+
+[projects."$HOME"]
+trust_level = "trusted"
+
+[plugins."security-guidance@claude-plugins-official"]
+enabled = true
+
+[plugins."superpowers@claude-plugins-official"]
+enabled = true
+
+[plugins."tdd-guard@tdd-guard"]
+enabled = true
+
+[plugins."codex-delegate@ai-research-skills"]
+enabled = true
+
+[plugins."gemini-delegate@ai-research-skills"]
+enabled = true

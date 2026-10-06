@@ -1,0 +1,59 @@
+name: default
+description: Representative public subset of a shared local MCP gateway profile. Private deployments may contain additional servers.
+
+gateway:
+  command: docker
+  args:
+    - mcp
+    - gateway
+    - run
+
+servers:
+  - name: github
+    enabled: true
+    credentials:
+      token: ${GITHUB_PERSONAL_ACCESS_TOKEN}
+
+  - name: filesystem
+    enabled: true
+    config:
+      paths:
+        - ${WORKSTATION_SAFE_ROOT}
+
+  - name: desktop-commander
+    enabled: true
+    config:
+      paths:
+        - ${WORKSTATION_SAFE_ROOT}
+
+  - name: memory
+    enabled: false
+    description: Optional non-durable bridge only. Durable cross-session memory belongs in Obsidian.
+
+  - name: obsidian
+    enabled: true
+    config:
+      vault_path: ${OBSIDIAN_VAULT_PATH}
+
+  - name: netlify
+    enabled: true
+    credentials:
+      token: ${NETLIFY_AUTH_TOKEN}
+
+  - name: supabase
+    enabled: true
+    credentials:
+      access_token: ${SUPABASE_ACCESS_TOKEN}
+
+  - name: resend
+    enabled: false
+    credentials:
+      api_key: ${RESEND_API_KEY}
+
+  - name: playwright
+    enabled: true
+
+  - name: sentry
+    enabled: false
+    credentials:
+      token: ${SENTRY_AUTH_TOKEN}

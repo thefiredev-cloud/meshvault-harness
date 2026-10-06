@@ -1,0 +1,31 @@
+# Read-oriented public baseline. Put mutation tools in tools.opt-in.yaml or a
+# private profile after access review.
+
+github:
+  - get_file_contents
+  - search_repositories
+
+filesystem:
+  - read_file
+  - list_directory
+  - search_files
+
+obsidian:
+  - list_files_in_vault
+  - get_file_contents
+  - simple_search
+
+netlify:
+  - list_projects
+  - read_environment
+
+supabase:
+  - list_projects
+  - generate_typescript_types
+
+playwright:
+  - navigate
+  - screenshot
+
+sentry:
+  - get_sentry_issue
