@@ -18,7 +18,7 @@ Install: `meshvault pro install FILE`. The archive carries its own license (`PRO
 
 ### How to get it after you pay
 
-The download link arrives by email within two business days, with a sha256 to check. Then:
+An email with your download link (valid 7 days), a sha256 to check and your license key arrives within minutes of payment, at the address you used at checkout. If it does not show up, check spam, then write to contact@meshvault.ai with your Stripe receipt. If the link expires, reply to the email for a new one. Then:
 
 ```bash
 sha256sum meshvault-harness-pro-1.0.0.tar.gz     # macOS: shasum -a 256
@@ -29,7 +29,7 @@ Updates for 12 months arrive the same way. Refund within 14 days if the pack doe
 
 ## Done-for-you install ($499 once, one machine)
 
-See [DONE-FOR-YOU.md](DONE-FOR-YOU.md). Book at https://thefiredev.com/harness or [pay with Stripe](https://buy.stripe.com/28E3cv5mt8Za1lQ7Mn9ws0m) and we schedule by email.
+See [DONE-FOR-YOU.md](DONE-FOR-YOU.md). Book at https://thefiredev.com/harness or [pay with Stripe](https://buy.stripe.com/28E3cv5mt8Za1lQ7Mn9ws0m): a confirmation email arrives at once, you reply with two or three times that suit you, and we schedule by email.
 
 ## What is never paywalled
 

@@ -33,7 +33,7 @@ make_link() { # name description cents redirect lookup
   printf '%s\t%s\t%s\t%s\n' "$lookup" "$(printf '%s' "$link" | paylink_url)" "$price" "$mode"
 }
 
-make_link "MeshVault Harness Pro" "Pro skills pack for the MeshVault Harness: 9 skills, memory templates, runbooks, routing recipes, 12 months of updates. Delivered by email within two business days." \
-  "$PRO_CENTS" "https://github.com/thefiredev-cloud/meshvault-harness/blob/main/docs/TIERS.md#how-to-get-it-after-you-pay" harness-pro
-make_link "MeshVault Harness: Done-for-you install" "One computer you own: 20-minute call, up to 90 minutes screen-share install, one workflow built, 30 days of email support." \
-  "$INSTALL_CENTS" "https://thefiredev.com/harness?paid=1" harness-install
+make_link "MeshVault Harness Pro" "Pro skills pack for the MeshVault Harness: 9 skills, memory templates, runbooks, routing recipes, 12 months of updates. The download link and license key are emailed within minutes of payment." \
+  "$PRO_CENTS" "https://thefiredev.com/harness?paid=pro" harness-pro
+make_link "MeshVault Harness: Done-for-you install" "One computer you own: 20-minute call, up to 90 minutes screen-share install, one workflow built, 30 days of email support. A confirmation email asks for times to book." \
+  "$INSTALL_CENTS" "https://thefiredev.com/harness?paid=install" harness-install

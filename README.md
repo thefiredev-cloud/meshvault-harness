@@ -61,8 +61,8 @@ curl -fsSL .../install.sh | bash -s -- --endpoint http://127.0.0.1:11434/v1 --en
 | We install it on your machine over a screen-share, tune the model, set up your first workflow | | | yes, one machine |
 | 30 days of email support | community (GitHub issues) | email | yes |
 
-* **Pro skills pack, $99:** [buy with Stripe](https://buy.stripe.com/9B6aEX5mtgrCd4yaYz9ws0l). The download link arrives by email within two business days, then `meshvault pro install FILE`. Questions first: [contact@meshvault.ai](mailto:contact@meshvault.ai?subject=Harness%20Pro). See [docs/TIERS.md](docs/TIERS.md).
-* **Done-for-you install, $499:** see [thefiredev.com/harness](https://thefiredev.com/harness) and book a call, or [pay with Stripe](https://buy.stripe.com/28E3cv5mt8Za1lQ7Mn9ws0m) and we schedule it by email. Scope and what is not included: [docs/DONE-FOR-YOU.md](docs/DONE-FOR-YOU.md).
+* **Pro skills pack, $99:** [buy with Stripe](https://buy.stripe.com/9B6aEX5mtgrCd4yaYz9ws0l). The download link and your license key arrive by email within minutes of payment, then `meshvault pro install FILE`. Questions first: [contact@meshvault.ai](mailto:contact@meshvault.ai?subject=Harness%20Pro). See [docs/TIERS.md](docs/TIERS.md).
+* **Done-for-you install, $499:** see [thefiredev.com/harness](https://thefiredev.com/harness) and book a call, or [pay with Stripe](https://buy.stripe.com/28E3cv5mt8Za1lQ7Mn9ws0m): a confirmation email arrives at once, you reply with times, and we schedule it. Scope and what is not included: [docs/DONE-FOR-YOU.md](docs/DONE-FOR-YOU.md).
 * The free core is the product. Paid tiers save you time and add skills; they do not lock features out of the free install.
 
 ## How it stays private and safe
