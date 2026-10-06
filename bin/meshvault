@@ -107,12 +107,14 @@ cmd_ask() {
   die_if_not_installed
   [ $# -ge 1 ] || die 'usage: meshvault ask "your question"'
   [ "${MV_MODE:-bundled}" = bundled ] && { server_healthy || cmd_start; }
+  mkdir -p "$RUN_DIR"
   local prompt="$*" body
   body=$(printf '%s' "$prompt" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' | awk 'BEGIN{ORS="\\n"} {print}')
   curl -fsS "$(api_base)/chat/completions" -H 'Content-Type: application/json' \
     -d "{\"model\":\"${MV_MODEL_NAME:-$MV_ALIAS}\",\"max_tokens\":600,\"chat_template_kwargs\":{\"enable_thinking\":false},\"messages\":[{\"role\":\"user\",\"content\":\"$body\"}]}" \
-    | sed -n 's/.*"content":"\(\([^"\\]\|\\.\)*\)".*/\1/p' | sed -e 's/\\n/\n/g' -e 's/\\"/"/g'
-  echo
+    | sed -n -E 's/.*"content":"(([^"\\]|\\.)*)".*/\1/p' > "$RUN_DIR/ask.out" || true
+  # printf %b turns the JSON \n and \t escapes into real characters; then unescape quotes.
+  printf '%b\n' "$(cat "$RUN_DIR/ask.out")" | sed 's/\\"/"/g'
 }
 
 cmd_logs() {
