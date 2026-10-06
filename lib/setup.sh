@@ -95,8 +95,11 @@ ok "$OS/$ARCH, ${RAM} GB usable RAM"
 sysdeps_linux() {
   local missing=()
   # node (used by Hermes) needs libatomic; the llama.cpp CPU build needs libgomp.
-  ldconfig -p 2>/dev/null | grep -q 'libatomic.so.1' || missing+=(libatomic)
-  ldconfig -p 2>/dev/null | grep -q 'libgomp.so.1'   || missing+=(libgomp)
+  # Read the whole cache first: `ldconfig -p | grep -q` makes ldconfig die of SIGPIPE on a big cache,
+  # and under pipefail that reported installed libraries as missing.
+  local libs; libs="$(ldconfig -p 2>/dev/null || true)"
+  grep -q 'libatomic.so.1' <<<"$libs" || missing+=(libatomic)
+  grep -q 'libgomp.so.1' <<<"$libs"   || missing+=(libgomp)
   [ "${#missing[@]}" -eq 0 ] && { ok "system libraries present"; return 0; }
   local cmd=""
   if have apt-get; then cmd="apt-get install -y libatomic1 libgomp1"
