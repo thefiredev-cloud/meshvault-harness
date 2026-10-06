@@ -68,6 +68,15 @@ while [ $# -gt 0 ]; do
 done
 
 run() { if [ "$OPT_DRY" = 1 ]; then say "  [dry-run] $*"; else "$@"; fi; }
+# run_logged LOGFILE CMD...: stream everything to LOGFILE, show the last lines only on failure. Honors --dry-run.
+run_logged() {
+  local log="$1"; shift
+  if [ "$OPT_DRY" = 1 ]; then say "  [dry-run] $*"; return 0; fi
+  mkdir -p "$(dirname "$log")"
+  if "$@" </dev/null >"$log" 2>&1; then return 0; fi
+  tail -n 20 "$log" | sed 's/^/    | /' >&2
+  return 1
+}
 
 OS="$(detect_os)"; ARCH="$(detect_arch)"
 [ "$OS" != unsupported ] || die "unsupported OS: $(uname -s). Linux and macOS only (Windows: use WSL2)."
@@ -211,9 +220,9 @@ if [ "$OPT_NO_HERMES" = 0 ]; then
   step "Hermes Agent"
   if have hermes; then ok "hermes already installed: $(hermes --version 2>/dev/null | head -n1)"
   else
-    say "Installing Hermes Agent with the official installer (a few minutes)"
-    run bash -c 'curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --non-interactive --skip-browser --skip-computer-use' </dev/null \
-      || die "Hermes install failed. See ~/.hermes/logs/install.log"
+    say "Installing Hermes Agent with the official installer (3 to 6 minutes; log: $MV_HOME/logs/hermes-install.log)"
+    run_logged "$MV_HOME/logs/hermes-install.log" bash -c 'curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --non-interactive --skip-browser --skip-computer-use' \
+      || die "Hermes install failed. Log: $MV_HOME/logs/hermes-install.log"
   fi
   export PATH="$HOME/.local/bin:$PATH"
   if [ "$OPT_DRY" = 0 ]; then
@@ -239,8 +248,8 @@ if [ "$OPT_NO_OMP" = 0 ]; then
   if have omp; then ok "omp already installed: $(omp --version 2>/dev/null | head -n1)"
   else
     say "Installing OMP with its official installer"
-    run bash -c 'curl -fsSL https://raw.githubusercontent.com/can1357/oh-my-pi/main/scripts/install.sh | sh -s -- --binary' </dev/null \
-      || warn "OMP install failed. Hermes still works. Retry later: curl -fsSL https://raw.githubusercontent.com/can1357/oh-my-pi/main/scripts/install.sh | sh -s -- --binary"
+    run_logged "$MV_HOME/logs/omp-install.log" bash -c 'curl -fsSL https://raw.githubusercontent.com/can1357/oh-my-pi/main/scripts/install.sh | sh -s -- --binary' \
+      || warn "OMP install failed (log: $MV_HOME/logs/omp-install.log). Hermes still works. Retry later with the command from https://github.com/can1357/oh-my-pi"
   fi
   if [ "$OPT_DRY" = 0 ] && have omp; then
     OMP_DIR="$HOME/.omp/agent"; mkdir -p "$OMP_DIR"
@@ -287,6 +296,8 @@ Try it:
   omp                    # coding agent in a project folder
 
 Skills are installed. Ask Hermes: "give me a daily standup from the notes in ~/notes"
+Heads up: on a CPU-only machine the first Hermes reply can take a few minutes while the model reads
+Hermes's long prompt once. Later replies are much faster. Apple Silicon and GPUs start in seconds.
 Manage: meshvault status | start | stop | doctor | model list | skills list
 
 Free core is MIT. Pro skills pack and done-for-you install: https://github.com/thefiredev-cloud/meshvault-harness#tiers

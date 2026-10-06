@@ -27,7 +27,7 @@ curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/
 | Free core | Pro skills pack, $99 | Done-for-you install, $499 |
 |---|---|---|
 | The installer, the `meshvault` command, 11 skills. MIT. | 9 more skills, memory templates, runbooks, routing recipes, 12 months of updates. | We set it up on your machine over a screen-share and build your first workflow. One machine, 30 days of email support. |
-| GitHub | Email contact@meshvault.ai | Book a 20-minute call |
+| GitHub | [Buy: https://buy.stripe.com/9B6aEX5mtgrCd4yaYz9ws0l](https://buy.stripe.com/9B6aEX5mtgrCd4yaYz9ws0l) | Book a call, or pay: https://buy.stripe.com/28E3cv5mt8Za1lQ7Mn9ws0m |
 
 ## Done-for-you install: what is included
 

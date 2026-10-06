@@ -14,11 +14,22 @@ Editable Markdown for one business or household, delivered as `meshvault-harness
 
 Install: `meshvault pro install FILE`. The archive carries its own license (`PRO-LICENSE.md`): internal use inside one entity, no redistribution.
 
-**How to order:** email contact@meshvault.ai with "Harness Pro". You get a Stripe invoice. After payment the download link arrives by email, within two business days. Updates for 12 months arrive the same way. Refund within 14 days if the pack does not do what this page says.
+**How to order:** [Stripe Payment Link, $99](https://buy.stripe.com/9B6aEX5mtgrCd4yaYz9ws0l). Or email contact@meshvault.ai with "Harness Pro" for an invoice.
+
+### How to get it after you pay
+
+The download link arrives by email within two business days, with a sha256 to check. Then:
+
+```bash
+sha256sum meshvault-harness-pro-1.0.0.tar.gz     # macOS: shasum -a 256
+meshvault pro install meshvault-harness-pro-1.0.0.tar.gz
+```
+
+Updates for 12 months arrive the same way. Refund within 14 days if the pack does not do what this page says.
 
 ## Done-for-you install ($499 once, one machine)
 
-See [DONE-FOR-YOU.md](DONE-FOR-YOU.md). Book at https://thefiredev.com/harness.
+See [DONE-FOR-YOU.md](DONE-FOR-YOU.md). Book at https://thefiredev.com/harness or [pay with Stripe](https://buy.stripe.com/28E3cv5mt8Za1lQ7Mn9ws0m) and we schedule by email.
 
 ## What is never paywalled
 
