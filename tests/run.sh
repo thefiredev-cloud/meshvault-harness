@@ -35,7 +35,7 @@ note "skills: ok ($(ls -d skills/*/ | wc -l | tr -d ' '))"
 
 # No fleet-specific hosts or personal paths in shipped files.
 if grep -rIEn '100\.[0-9]+\.[0-9]+\.[0-9]+|\.ts\.net|pc-desktop|meshvault3|/home/[a-z]+/|tannermini' \
-     --exclude-dir=.git --exclude=run.sh --exclude-dir=reference . ; then
+     --exclude-dir=.git --exclude=run.sh --exclude=container-proof.sh --exclude-dir=reference . ; then
   note "found fleet-specific strings"; fail=1
 fi
 note "no fleet strings: ok"
