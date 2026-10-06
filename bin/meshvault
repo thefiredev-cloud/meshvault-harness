@@ -193,7 +193,7 @@ cmd_pro() {
   local file="${2:-}"; [ -f "$file" ] || die "file not found: $file"
   local tmp; tmp="$(mktemp -d)"
   tar -xzf "$file" -C "$tmp" || die "not a valid Pro pack archive"
-  local root; root="$(find "$tmp" -maxdepth 2 -name PRO-LICENSE.md -print -quit | xargs -I{} dirname {})"
+  local lic root=""; lic="$(find "$tmp" -maxdepth 2 -name PRO-LICENSE.md -print -quit)"; [ -z "$lic" ] || root="$(dirname "$lic")"
   [ -n "$root" ] && [ -d "$root/skills" ] || { rm -rf "$tmp"; die "archive has no PRO-LICENSE.md and skills/ folder. Is this the MeshVault Pro pack?"; }
   rm -rf "$MV_HOME/pro"; mkdir -p "$MV_HOME/pro"
   cp -R "$root/." "$MV_HOME/pro/"

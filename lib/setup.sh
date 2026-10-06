@@ -304,5 +304,5 @@ Free core is MIT. Pro skills pack and done-for-you install: https://github.com/t
 EOF
 if [ "${NEED_PATH_NOTE:-0}" = 1 ]; then
   echo
-  warn "~/.local/bin is not on your PATH in this terminal. Open a new terminal, or run: export PATH=\"\$HOME/.local/bin:\$PATH\""
+  warn "\$HOME/.local/bin is not on your PATH in this terminal. Open a new terminal, or run: export PATH=\"\$HOME/.local/bin:\$PATH\""
 fi
