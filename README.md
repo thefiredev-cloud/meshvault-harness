@@ -1,14 +1,24 @@
 # MeshVault Harness
 
-**A private AI agent on your own computer. One command to install.**
+[![CI](https://github.com/thefiredev-cloud/meshvault-harness/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thefiredev-cloud/meshvault-harness/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/thefiredev-cloud/meshvault-harness)](https://github.com/thefiredev-cloud/meshvault-harness/releases/latest)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Hermes (agent), OMP (coding agent), a local language model, and a set of approval-gated skills, wired together and running on hardware you own. Nothing you type leaves the machine unless you point the agent at a cloud model yourself.
+MeshVault Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command.
+
+## Install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/main/install.sh | bash
 ```
 
 Linux (Ubuntu/Debian, Fedora, Arch) and macOS (Apple Silicon and Intel). Windows through WSL2. No account, no API key, no sudo unless a system library is missing. [Read the installer first](install.sh); it is short.
+
+**Free:** the MIT installer, `meshvault` CLI and 11 skills. **Paid:** the Pro skills pack is $99 once; a done-for-you install is $499 once. [Compare the tiers and buy](https://thefiredev.com/harness).
+
+![Terminal demo: meshvault doctor checks the install, then meshvault ask gets a local-model answer](docs/assets/demo.gif)
+
+Recorded from a real run in a fresh Omabox home on Linux. The demo shows the installed CLI; idle time is shortened. [Setup options](docs/INSTALL.md) · [Privacy and approval limits](docs/SECURITY.md)
 
 ## What you get
 
