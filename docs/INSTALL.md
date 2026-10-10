@@ -25,8 +25,8 @@ The script clones this repo to `~/.meshvault/harness` (newest `v*` release tag) 
 3. Picks a model by your RAM and downloads it (resumable, sha256-checked) to `~/.meshvault/models/`.
 4. Writes `~/.meshvault/config.env` and links `~/.local/bin/meshvault`.
 5. Starts the model server on `127.0.0.1:8484`.
-6. Installs Hermes Agent with its official installer (skips browser and computer-use add-ons) and points it at the local model.
-7. Installs OMP with its official installer and adds a `meshvault-local` provider.
+6. Installs Hermes Agent by piping `https://hermes-agent.nousresearch.com/install.sh` to bash (skips browser and computer-use add-ons) and points it at the local model. The script is not pinned or checksummed.
+7. Installs OMP by piping `https://raw.githubusercontent.com/can1357/oh-my-pi/main/scripts/install.sh` to sh (`--binary`) and adds a `meshvault-local` provider. The script is not pinned or checksummed.
 8. Copies the free skills into `~/.hermes/skills/meshvault/` and `~/.omp/agent/skills/`.
 9. Runs `meshvault doctor`.
 

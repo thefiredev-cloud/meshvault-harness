@@ -10,7 +10,7 @@ Start with `meshvault doctor`. It checks the model, Hermes, OMP and skills and s
 | Hermes reply takes minutes | CPU-only machine reading Hermes's long prompt. Wait for the first reply, later ones are faster. Use the smaller toolset (`hermes tools list`), a smaller model, `meshvault ask`, or Apple Silicon / a GPU (`--gpu vulkan`). |
 | Hermes says the context window is too small | Hermes needs 64000 tokens. Keep `--ctx 65536`. If you use `--endpoint`, start that server with a 64K context. |
 | Model server will not start | `meshvault logs`. Usually out of memory: `meshvault model use qwen3-1.7b`. |
-| Port 8484 is in use | Reinstall with `--port 8585` or edit `MV_PORT` in `~/.meshvault/config.env` and run `meshvault restart`, then `hermes config set model.base_url http://127.0.0.1:8585/v1`. |
+| Port 8484 is in use | Reinstall with `--port 8585`. Or edit both `MV_PORT` and `MV_BASE_URL` in `~/.meshvault/config.env`, run `meshvault restart`, then `hermes config set model.base_url http://127.0.0.1:8585/v1` and change `baseUrl` under `meshvault-local` in `~/.omp/agent/models.yml`. |
 | OMP does not list the local model | You already had `~/.omp/agent/models.yml`. The installer printed the provider block to add; it is in `templates/omp-provider.yml`. |
 | macOS: "cannot be opened because the developer cannot be verified" on llama-server | `xattr -dr com.apple.quarantine ~/.meshvault/runtime` then `meshvault restart`. |
 | Skill not showing up | `meshvault skills sync`. A skill folder you made yourself with the same name is skipped on purpose. |

@@ -4,7 +4,7 @@
 
 * The model server listens on `127.0.0.1` only. It has no API key because nothing outside the machine can reach it.
 * The installer reads and writes no credentials, and the repo contains none (CI runs a secret scan on every push).
-* Downloads are pinned and sha256-verified: llama.cpp builds and model files (`catalog/`). The Hermes and OMP installers are the official ones from their projects, fetched over HTTPS.
+* Downloads are pinned and sha256-verified: llama.cpp builds and model files (`catalog/`). The Hermes and OMP install scripts are not pinned or checksummed: the installer fetches them over HTTPS from `hermes-agent.nousresearch.com` and `raw.githubusercontent.com/can1357/oh-my-pi/main` and pipes them to the shell. Skip them with `--no-hermes` and `--no-omp`.
 * Skills are Markdown. Each one that can act on the real world carries an Approval Gate: it drafts, shows you, and waits for your yes before it sends, pays, posts or deletes.
 * Everything installs under your home folder. System libraries are the only exception, and only with your `sudo`.
 
