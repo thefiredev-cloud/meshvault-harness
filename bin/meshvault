@@ -3,8 +3,13 @@
 set -eu
 set -o pipefail
 
-SELF="$(readlink "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")"
-case "$SELF" in /*) ;; *) SELF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$SELF" ;; esac
+# Resolve this script's own path: follow symlinks, work from any cwd (no readlink -f on macOS).
+SELF="${BASH_SOURCE[0]}"
+while [ -L "$SELF" ]; do
+  link="$(readlink "$SELF")"
+  case "$link" in /*) SELF="$link" ;; *) SELF="$(dirname "$SELF")/$link" ;; esac
+done
+SELF="$(cd "$(dirname "$SELF")" && pwd)/$(basename "$SELF")"
 HARNESS_DIR="$(cd "$(dirname "$SELF")/.." && pwd)"
 # shellcheck source=../lib/common.sh
 . "$HARNESS_DIR/lib/common.sh"

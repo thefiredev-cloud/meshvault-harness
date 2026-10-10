@@ -56,10 +56,11 @@ ram_gb() {
   echo $(( bytes / 1073741824 ))
 }
 
-# Free disk space in GB for the filesystem holding $1 (created if missing).
+# Free disk space in GB for the filesystem holding $1. Reads the nearest existing parent; creates nothing.
 free_gb() {
-  mkdir -p "$1"
-  df -Pk "$1" | awk 'NR==2 {print int($4/1048576)}'
+  local p="$1"
+  while [ ! -d "$p" ] && [ "$p" != "/" ] && [ "$p" != "." ]; do p="$(dirname "$p")"; done
+  df -Pk "$p" | awk 'NR==2 {print int($4/1048576)}'
 }
 
 sha256_of() {

@@ -89,7 +89,7 @@ curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/
 curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/main/install.sh | bash -s -- --endpoint http://127.0.0.1:11434/v1 --endpoint-model qwen3:8b
 ```
 
-`--gpu vulkan`, `--llama-server PATH`, `--ctx`, `--port`, `--no-hermes`, `--no-omp`, `--dry-run` and more: `install.sh --help`. `--dry-run` prints every download and install step; it creates an empty `~/.meshvault` folder and changes nothing else. Details in [docs/INSTALL.md](docs/INSTALL.md). Trouble: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
+`--gpu vulkan`, `--llama-server PATH`, `--ctx`, `--port`, `--no-hermes`, `--no-omp`, `--dry-run` and more: `install.sh --help`. `--dry-run` prints every download and install step and writes nothing, not even `~/.meshvault`. Details in [docs/INSTALL.md](docs/INSTALL.md). Trouble: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
 ## Tiers
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+Fix: `install.sh --dry-run` no longer creates `~/.meshvault`; the disk-space check reads the nearest existing parent folder instead of creating the target. Fix: `bin/meshvault` failed when started by a relative path such as `bin/meshvault` or `../bin/meshvault`; it now resolves its own location from any working directory.
+
 ## 1.0.1 (2026-10-06)
 
 Fix: the installer stopped with "missing system libraries (libatomic libgomp)" on desktop Linux machines that already had both. `ldconfig -p | grep -q` made `ldconfig` die of SIGPIPE on a large library cache, and `pipefail` turned that into a false "missing". The check now reads the cache once.
