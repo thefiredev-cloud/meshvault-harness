@@ -40,4 +40,7 @@ if grep -rIEn '100\.[0-9]+\.[0-9]+\.[0-9]+|\.ts\.net|pc-desktop|meshvault3|/home
 fi
 note "no fleet strings: ok"
 
+# Behavior tests for lib/common.sh (offline, no network).
+bash tests/test-common.sh || { note "common tests: failed"; fail=1; }
+
 exit "$fail"
