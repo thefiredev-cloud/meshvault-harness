@@ -6,7 +6,7 @@
 
 MeshVault Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 11 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.
 
-Status: version 1.0.1. On every push, CI installs the pinned llama.cpp build and the 1.7B model on Ubuntu 24.04 x64 and checks that the model answers. CI skips Hermes and OMP. macOS, Fedora, Arch and WSL2 have no CI coverage.
+Status: version 1.0.1. On every push to `main` and every pull request, CI installs the pinned llama.cpp build and the 1.7B model on Ubuntu 24.04 x64 and checks that the model answers. CI skips Hermes and OMP. macOS, Fedora, Arch and WSL2 have no CI coverage.
 
 ## Install
 
@@ -89,7 +89,7 @@ curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/
 curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/main/install.sh | bash -s -- --endpoint http://127.0.0.1:11434/v1 --endpoint-model qwen3:8b
 ```
 
-`--gpu vulkan`, `--llama-server PATH`, `--ctx`, `--port`, `--no-hermes`, `--no-omp`, `--dry-run` and more: `install.sh --help`. `--dry-run` prints every download and install step and writes nothing, not even `~/.meshvault`. Details in [docs/INSTALL.md](docs/INSTALL.md). Trouble: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
+`--gpu vulkan`, `--llama-server PATH`, `--ctx`, `--port`, `--no-hermes`, `--no-omp`, `--dry-run` and more: `install.sh --help`. `--dry-run` prints every download and install step. From a checkout it writes nothing. The curl one-liner still clones the repo into `~/.meshvault/harness` first, so that folder appears even with `--dry-run`. Details in [docs/INSTALL.md](docs/INSTALL.md). Trouble: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
 ## Tiers
 
