@@ -6,7 +6,7 @@
 |---|---|---|
 | OS | Ubuntu 22.04+/Debian 12+, Fedora, Arch, macOS 13+ | Apple Silicon Mac, or Linux with 16 GB RAM |
 | RAM | 8 GB (1.7B model) | 16 GB (4B, the default), 32 GB+ for the 8B/30B |
-| Disk | 8 GB free | 30 GB free |
+| Disk | Model file + about 3 GB (about 4 GB for the 1.7B model, about 20 GB for the 30B) | 30 GB free |
 | Tools | `curl`, `git`, `tar` | |
 | Linux libs | `libatomic1`, `libgomp1` (the installer installs them with `sudo` if needed) | |
 
