@@ -144,4 +144,4 @@ This repo replaces six earlier MeshVault repos. [What moved where](docs/CONSOLID
 
 ## License
 
-MIT for everything in this repo. The Pro pack has its own license. Hermes, OMP and llama.cpp are MIT; Qwen3 weights are Apache-2.0. MeshVault is a product of FireDev LLC. Support: [contact@meshvault.ai](mailto:contact@meshvault.ai).
+MIT for everything in this repo. The Pro pack has its own license. Hermes, OMP and llama.cpp are MIT; Qwen3 weights are Apache-2.0. MeshVault is a product of thefiredev-cloud Support: [contact@meshvault.ai](mailto:contact@meshvault.ai).
