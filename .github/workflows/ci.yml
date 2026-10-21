@@ -9,8 +9,9 @@ jobs:
   checks:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          persist-credentials: false
           fetch-depth: 0
       - name: shell syntax and lint
         run: |
@@ -28,7 +29,9 @@ jobs:
     # Installs the real runtime and the smallest model on a clean Ubuntu runner, skipping Hermes/OMP downloads.
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: installer (model only) and local answer
         run: |
           ./install.sh --yes --model qwen3-1.7b --no-hermes --no-omp --ctx 8192 --no-verify
