@@ -1,0 +1,12 @@
+sequenceDiagram
+  autonumber
+  actor user as User
+  participant mv as meshvault CLI
+  participant ll as llama-server :8484
+  user->>mv: meshvault ask "question"
+  alt bundled mode and server not healthy
+    mv->>ll: start in background
+  end
+  mv->>ll: POST /v1/chat/completions
+  ll-->>mv: answer
+  mv-->>user: print answer

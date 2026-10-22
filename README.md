@@ -142,6 +142,36 @@ Run the static checks with `bash tests/run.sh` (syntax, shellcheck if installed,
 
 This repo replaces six earlier MeshVault repos. [What moved where](docs/CONSOLIDATION.md). To contribute, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+<!-- arch:begin -->
+## Architecture
+
+One command installs Hermes Agent, OMP and a local Qwen3 model, plus 11 skills that make the agent ask before it acts.
+
+```mermaid
+flowchart LR
+  user(["Person"]):::actor
+  installer["Installer<br/>install.sh, setup.sh"]:::app
+  net{{"GitHub + Hugging Face<br/>pinned, sha256"}}:::ext
+  llama["Local model server<br/>llama.cpp, 127.0.0.1"]:::app
+  agents["Hermes + OMP<br/>the agents"]:::app
+  skills["11 skills<br/>ask before acting"]:::doc
+  cli["meshvault CLI<br/>start, doctor, sync"]:::app
+  user -->|"one command"| installer
+  net -->|"downloads"| installer
+  installer -->|"sets up"| llama
+  agents -->|"local HTTP"| llama
+  skills -->|"rules"| agents
+  user -->|"day to day"| cli
+  cli -->|"start / stop"| llama
+  classDef actor fill:#fde68a,stroke:#b45309,color:#111827
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef doc fill:#fed7aa,stroke:#c2410c,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
+```
+
+[Full architecture](docs/ARCHITECTURE.md) · Hi-res: [SVG](docs/architecture/whiteboard.svg) · [PNG 3x](docs/architecture/whiteboard@3x.png) · [dark PNG](docs/architecture/whiteboard.dark@3x.png) · [Explorable (Archify)](docs/architecture/meshvault-harness.archify.html) · [Graphify report](docs/architecture/graphify/GRAPH_REPORT.md)
+<!-- arch:end -->
+
 ## License
 
 MIT for everything in this repo. The Pro pack has its own license. Hermes, OMP and llama.cpp are MIT; Qwen3 weights are Apache-2.0. MeshVault is a product of thefiredev-cloud Support: [contact@meshvault.ai](mailto:contact@meshvault.ai).

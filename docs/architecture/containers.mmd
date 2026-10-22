@@ -1,0 +1,40 @@
+flowchart TB
+  user(["Person with a computer"]):::actor
+  gh{{"GitHub (repo, llama.cpp releases)"}}:::ext
+  hf{{"Hugging Face (Qwen3 GGUF)"}}:::ext
+  thirdparty{{"Hermes + OMP installers"}}:::ext
+  stripe{{"Stripe payment links"}}:::ext
+  subgraph SYSTEM["MeshVault Harness"]
+    installer["install.sh + lib/setup.sh<br/>bash"]:::app
+    cli["meshvault CLI<br/>bash"]:::app
+    catalog[("Catalog<br/>TSV with sha256")]:::store
+    llama["llama-server<br/>llama.cpp, 127.0.0.1:8484"]:::app
+    home[("~/.meshvault<br/>files")]:::store
+    agents["Hermes Agent + OMP<br/>third-party"]:::app
+    skills["11 free skills<br/>SKILL.md"]:::doc
+    unit["Autostart unit<br/>systemd user / launchd"]:::job
+    ci["CI<br/>GitHub Actions"]:::job
+  end
+  user -->|"curl | bash or ./install.sh"| installer
+  installer -->|"clone repo, fetch llama.cpp"| gh
+  installer -->|"download GGUF"| hf
+  installer -->|"reads pins"| catalog
+  installer -->|"writes models, config"| home
+  installer -->|"pipes their scripts"| thirdparty
+  thirdparty -.->|"installs"| agents
+  installer -->|"sync"| skills
+  user -->|"meshvault ..."| cli
+  cli -->|"start / stop / ask"| llama
+  llama -->|"loads model"| home
+  agents -->|"HTTP /v1"| llama
+  cli -->|"autostart on"| unit
+  unit -->|"serve"| llama
+  agents -->|"read"| skills
+  cli -.->|"pro install is offline"| stripe
+  ci -.->|"install smoke"| installer
+  classDef actor fill:#fde68a,stroke:#b45309,color:#111827
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef doc fill:#fed7aa,stroke:#c2410c,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
+  classDef job fill:#fbcfe8,stroke:#be185d,color:#0b1220
+  classDef store fill:#bbf7d0,stroke:#15803d,color:#0b1220
