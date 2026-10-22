@@ -1,0 +1,181 @@
+{
+ "repo": "meshvault-harness",
+ "files_tracked": 72,
+ "head": "cc434cb4bb7ae36420bfbc7f18858840a46c115d",
+ "origin": "https://github.com/thefiredev-cloud/meshvault-harness.git",
+ "default_branch": "main",
+ "languages": [
+  [
+   ".md",
+   38
+  ],
+  [
+   ".sh",
+   7
+  ],
+  [
+   ".json",
+   5
+  ],
+  [
+   ".yaml",
+   5
+  ],
+  [
+   ".py",
+   3
+  ],
+  [
+   ".yml",
+   2
+  ],
+  [
+   ".tsv",
+   2
+  ],
+  [
+   ".gif",
+   1
+  ]
+ ],
+ "readme": "README.md",
+ "readme_first_paragraph": "MeshVault Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 11 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.",
+ "top_dirs": [
+  ".github",
+  "bin",
+  "catalog",
+  "docs",
+  "examples",
+  "lib",
+  "reference",
+  "skills",
+  "templates",
+  "tests",
+  "tools"
+ ],
+ "manifests": [],
+ "libs": [],
+ "entry_points": [
+  {
+   "kind": "bin",
+   "count": 1,
+   "paths": [
+    "bin/meshvault"
+   ]
+  },
+  {
+   "kind": "scripts",
+   "count": 1,
+   "paths": [
+    "tools/create-payment-links.sh"
+   ]
+  },
+  {
+   "kind": "python-script-main",
+   "count": 3,
+   "paths": [
+    "reference/workstation-templates/scripts/sanitize-check.py",
+    "reference/workstation-templates/scripts/validate-template-syntax.py",
+    "reference/workstation-templates/tests/test_sanitize_check.py"
+   ]
+  }
+ ],
+ "services": [],
+ "deploy_targets": [],
+ "ci_workflows": [
+  {
+   "path": ".github/workflows/ci.yml",
+   "name": "ci",
+   "on": [
+    "push",
+    "pull_request"
+   ],
+   "jobs": [
+    "checks",
+    "install-smoke"
+   ],
+   "deploy_hints": []
+  }
+ ],
+ "cron_and_timers": [],
+ "files_scanned": 23,
+ "external_hosts": [
+  {
+   "host": "github.com",
+   "count": 4,
+   "first": ".github/workflows/ci.yml:22"
+  },
+  {
+   "host": "raw.githubusercontent.com",
+   "count": 2,
+   "first": "install.sh:4"
+  },
+  {
+   "host": "thefiredev.com",
+   "count": 2,
+   "first": "tools/create-payment-links.sh:37"
+  },
+  {
+   "host": "hermes-agent.nousresearch.com",
+   "count": 1,
+   "first": "lib/setup.sh:227"
+  },
+  {
+   "host": "api.stripe.com",
+   "count": 1,
+   "first": "tools/create-payment-links.sh:12"
+  }
+ ],
+ "env_var_names": [
+  {
+   "name": "ANTHROPIC_API_KEY",
+   "first": "reference/workstation-templates/tests/test_sanitize_check.py"
+  }
+ ],
+ "ci_secret_names": [],
+ "data_store_signals": {
+  "filesystem vault": [
+   "reference/workstation-templates/templates/codex/config.toml:24",
+   "reference/workstation-templates/templates/docker-mcp/profile.default.yaml:33",
+   "reference/workstation-templates/templates/docker-mcp/tools.opt-in.yaml:13",
+   "reference/workstation-templates/templates/docker-mcp/tools.yaml:13"
+  ]
+ },
+ "auth_signals": {
+  "API key header": [
+   "reference/workstation-templates/templates/docker-mcp/profile.default.yaml:51"
+  ],
+  "JWT": [
+   "reference/workstation-templates/scripts/sanitize-check.py:60"
+  ],
+  "OAuth": [
+   "reference/workstation-templates/scripts/sanitize-check.py:93"
+  ],
+  "Binds loopback only": [
+   "lib/common.sh:102",
+   "lib/setup.sh:27"
+  ],
+  "Secrets from env or CI secrets": [
+   "reference/workstation-templates/scripts/sanitize-check.py:97"
+  ],
+  "Approval/consent gate": [
+   ".github/workflows/ci.yml:37",
+   "lib/setup.sh:22",
+   "reference/workstation-templates/templates/codex/config.toml:5"
+  ]
+ },
+ "tests": [
+  "tests",
+  "reference/workstation-templates/tests/test_sanitize_check.py"
+ ],
+ "docs_files": [
+  "docs/ARCHITECTURE.md",
+  "docs/CONSOLIDATION.md",
+  "docs/DONE-FOR-YOU.md",
+  "docs/INSTALL.md",
+  "docs/PRODUCT-COPY.md",
+  "docs/SECURITY.md",
+  "docs/TIERS.md",
+  "docs/TROUBLESHOOTING.md"
+ ]
+}

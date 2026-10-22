@@ -1,0 +1,19 @@
+flowchart LR
+  gh{{"GitHub + HF"}}:::ext
+  cat[("catalog/*.tsv")]:::store
+  inst["Installer"]:::app
+  home[("~/.meshvault")]:::store
+  ll["llama-server"]:::app
+  ag["Hermes / OMP"]:::app
+  sk["Skills"]:::doc
+  cat -->|"pins"| inst
+  gh -->|"binaries, GGUF"| inst
+  inst -->|"verified files"| home
+  home -->|"model"| ll
+  ag -->|"prompts"| ll
+  ll -.->|"completions"| ag
+  sk -->|"instructions"| ag
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef doc fill:#fed7aa,stroke:#c2410c,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
+  classDef store fill:#bbf7d0,stroke:#15803d,color:#0b1220

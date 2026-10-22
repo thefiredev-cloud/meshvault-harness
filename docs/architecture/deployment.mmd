@@ -1,0 +1,18 @@
+flowchart LR
+  ci["GitHub Actions CI"]:::job
+  net{{"GitHub + HF (install time)"}}:::ext
+  subgraph host_box["User's computer (Linux, macOS, WSL2)"]
+    ll["llama-server<br/>on demand or at login · 127.0.0.1:8484"]:::app
+    unit["meshvault-llm.service / ai.meshvault.llm<br/>at login if autostart on"]:::job
+    ag["Hermes + OMP<br/>when you run them"]:::app
+    home[("~/.meshvault")]:::store
+  end
+  unit -->|"serve"| ll
+  ag -->|"HTTP"| ll
+  ll -->|"model"| home
+  net -.->|"install only"| home
+  ci -.->|"install + ask check"| ll
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
+  classDef job fill:#fbcfe8,stroke:#be185d,color:#0b1220
+  classDef store fill:#bbf7d0,stroke:#15803d,color:#0b1220

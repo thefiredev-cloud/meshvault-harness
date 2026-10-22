@@ -1,0 +1,19 @@
+flowchart LR
+  user(["Person"]):::actor
+  installer["Installer<br/>install.sh, setup.sh"]:::app
+  net{{"GitHub + Hugging Face<br/>pinned, sha256"}}:::ext
+  llama["Local model server<br/>llama.cpp, 127.0.0.1"]:::app
+  agents["Hermes + OMP<br/>the agents"]:::app
+  skills["11 skills<br/>ask before acting"]:::doc
+  cli["meshvault CLI<br/>start, doctor, sync"]:::app
+  user -->|"one command"| installer
+  net -->|"downloads"| installer
+  installer -->|"sets up"| llama
+  agents -->|"local HTTP"| llama
+  skills -->|"rules"| agents
+  user -->|"day to day"| cli
+  cli -->|"start / stop"| llama
+  classDef actor fill:#fde68a,stroke:#b45309,color:#111827
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef doc fill:#fed7aa,stroke:#c2410c,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3

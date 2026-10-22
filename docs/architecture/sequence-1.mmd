@@ -1,0 +1,17 @@
+sequenceDiagram
+  autonumber
+  actor user as User
+  participant inst as install.sh / setup.sh
+  participant cat as Catalog
+  participant net as GitHub + Hugging Face
+  participant ag as Hermes + OMP installers
+  participant mv as meshvault CLI
+  user->>inst: curl ... install.sh | bash
+  inst->>net: clone repo at newest v* tag
+  inst->>cat: choose largest model that fits RAM
+  inst->>net: download llama.cpp and GGUF
+  Note over inst,cat: sha256 verified against catalog
+  inst->>ag: run official Hermes and OMP installers
+  inst->>mv: write config.env, optional autostart on
+  inst->>mv: end-to-end check: model answers
+  inst-->>user: meshvault doctor, then hermes

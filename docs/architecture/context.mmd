@@ -1,0 +1,17 @@
+flowchart LR
+  user(["Person with a computer"]):::actor
+  SYSTEM["MeshVault Harness<br/>the system in this repo"]:::app
+  gh{{"GitHub (repo, llama.cpp releases)"}}:::ext
+  hf{{"Hugging Face (Qwen3 GGUF)"}}:::ext
+  thirdparty{{"Hermes + OMP installers"}}:::ext
+  stripe{{"Stripe payment links"}}:::ext
+  user -->|"curl | bash or ./install.sh"| SYSTEM
+  SYSTEM -->|"clone repo, fetch llama.cpp"| gh
+  SYSTEM -->|"download GGUF"| hf
+  SYSTEM -->|"pipes their scripts"| thirdparty
+  thirdparty -.->|"installs"| SYSTEM
+  user -->|"meshvault ..."| SYSTEM
+  SYSTEM -.->|"pro install is offline"| stripe
+  classDef actor fill:#fde68a,stroke:#b45309,color:#111827
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
