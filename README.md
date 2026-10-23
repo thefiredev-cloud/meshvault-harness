@@ -14,7 +14,7 @@ Status: version 1.0.1. On every push to `main` and every pull request, CI instal
 curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/main/install.sh | bash
 ```
 
-This pipes a script from GitHub into bash. [`install.sh`](install.sh) is short: it clones this repo and hands off to [`lib/setup.sh`](lib/setup.sh), which does the work. Read both first, or clone the repo and run `./install.sh` from the checkout.
+This pipes the bootstrap script from GitHub into bash. Outside a checkout, [`install.sh`](install.sh) clones this repo into `~/.meshvault/harness` and runs [`lib/setup.sh`](lib/setup.sh). From a checkout, it runs that checkout's `lib/setup.sh` directly. Read both first, or clone the repo and run `./install.sh` from the checkout.
 
 Linux (Ubuntu/Debian, Fedora, Arch) and macOS (Apple Silicon and Intel). Windows through WSL2. You need `curl`, `git` and `tar`. No account, no API key. On Linux the installer uses `sudo` only if `libatomic` or `libgomp` is missing.
 
@@ -125,7 +125,7 @@ curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/
 ## What is in this repo
 
 ```
-install.sh            one-command installer (fetches the repo, runs lib/setup.sh)
+install.sh            installer bootstrap (clones on piped use; runs lib/setup.sh from a checkout)
 lib/                  setup + shared shell helpers
 bin/meshvault         day-to-day CLI
 catalog/              pinned llama.cpp builds and model files with sha256
