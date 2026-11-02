@@ -1,10 +1,10 @@
-# MeshVault Harness
+# Kodros Harness
 
 [![CI](https://github.com/thefiredev-cloud/meshvault-harness/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thefiredev-cloud/meshvault-harness/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/thefiredev-cloud/meshvault-harness)](https://github.com/thefiredev-cloud/meshvault-harness/releases/latest)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-MeshVault Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 11 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.
+Kodros Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 11 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.
 
 Status: version 1.0.1. On every push to `main` and every pull request, CI installs the pinned llama.cpp build and the 1.7B model on Ubuntu 24.04 x64 and checks that the model answers. CI skips Hermes and OMP. macOS, Fedora, Arch and WSL2 have no CI coverage.
 
@@ -140,7 +140,7 @@ tools/                maintainer script that creates the Stripe payment links
 
 Run the static checks with `bash tests/run.sh` (syntax, shellcheck if installed, catalog format, skill format). `tests/container-proof.sh` runs the full install in a fresh `ubuntu:24.04` Docker container and needs Docker.
 
-This repo replaces six earlier MeshVault repos. [What moved where](docs/CONSOLIDATION.md). To contribute, see [CONTRIBUTING.md](CONTRIBUTING.md).
+This repo replaces six earlier Kodros repos. [What moved where](docs/CONSOLIDATION.md). To contribute, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 <!-- arch:begin -->
 ## Architecture
@@ -174,4 +174,4 @@ flowchart LR
 
 ## License
 
-MIT for everything in this repo. The Pro pack has its own license. Hermes, OMP and llama.cpp are MIT; Qwen3 weights are Apache-2.0. MeshVault is a product of thefiredev-cloud Support: [contact@meshvault.ai](mailto:contact@meshvault.ai).
+MIT for everything in this repo. The Pro pack has its own license. Hermes, OMP and llama.cpp are MIT; Qwen3 weights are Apache-2.0. Kodros is a product of thefiredev-cloud Support: [contact@meshvault.ai](mailto:contact@meshvault.ai).
