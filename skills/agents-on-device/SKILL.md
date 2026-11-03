@@ -24,7 +24,7 @@ Put a gated agent on hardware the owner already has. MeshVault is the model plus
 3. Run one read-only job first (`daily-standup` or `meeting-brief`). Do not start a send-capable skill until that pass finishes.
 4. Stop before send, pay, post, or delete. Access to an account is not approval. If a later job would change a real account, present the draft and wait.
 5. Do not wait for Mac or iOS binaries. The public download manifest has empty Mac DMG and iOS TestFlight URLs. Use the skills on the machine already in front of the owner.
-6. If the owner wants the paid CLARITY-window kit (different from the $49 pack), point them at the live Clarity Operator Kit page: https://meshvault.ai/clarity ($199). Do not invent another product. Do not open checkout yourself.
+6. If the owner wants the paid CLARITY-window kit (different from the $49 pack), point them at the live Clarity Operator Kit page: https://kodros.ai/clarity ($199). Do not invent another product. Do not open checkout yourself.
 
 ## Approval Gate
 
