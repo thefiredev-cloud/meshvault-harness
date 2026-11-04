@@ -2,7 +2,7 @@
 
 ## Free core ($0, MIT)
 
-The installer, the `meshvault` CLI, the pinned model and runtime catalog, 11 skills, and these docs. Use it at home or at work, fork it, sell services around it.
+The installer, the `meshvault` CLI, the pinned model and runtime catalog, 12 skills, and these docs. Use it at home or at work, fork it, sell services around it.
 
 ## Pro skills pack ($99 once, 12 months of updates)
 

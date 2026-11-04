@@ -7,7 +7,7 @@
 
 ## 1. Purpose
 
-Kodros Harness gives a person an AI agent that runs on their own computer with no account and no API key. `install.sh` clones this repo and `lib/setup.sh` downloads a pinned llama.cpp server and one sha256-checked Qwen3 model, then installs Hermes Agent and OMP with their own official installers and points both at the local model on 127.0.0.1. 11 Markdown skills tell the agent to draft, show and wait before it sends, pays, posts or deletes. A `meshvault` command starts and stops the model, runs a doctor, syncs skills and installs the paid Pro pack.
+Kodros Harness gives a person an AI agent that runs on their own computer with no account and no API key. `install.sh` clones this repo and `lib/setup.sh` downloads a pinned llama.cpp server and one sha256-checked Qwen3 model, then installs Hermes Agent and OMP with their own official installers and points both at the local model on 127.0.0.1. 12 Markdown skills tell the agent to draft, show and wait before it sends, pays, posts or deletes. A `meshvault` command starts and stops the model, runs a doctor, syncs skills and installs the paid Pro pack.
 
 ## 2. Whiteboard view
 
@@ -20,7 +20,7 @@ flowchart LR
   net{{"GitHub + Hugging Face<br/>pinned, sha256"}}:::ext
   llama["Local model server<br/>llama.cpp, 127.0.0.1"]:::app
   agents["Hermes + OMP<br/>the agents"]:::app
-  skills["11 skills<br/>ask before acting"]:::doc
+  skills["12 skills<br/>ask before acting"]:::doc
   cli["meshvault CLI<br/>start, doctor, sync"]:::app
   user -->|"one command"| installer
   net -->|"downloads"| installer
@@ -83,7 +83,7 @@ flowchart TB
     llama["llama-server<br/>llama.cpp, 127.0.0.1:8484"]:::app
     home[("~/.meshvault<br/>files")]:::store
     agents["Hermes Agent + OMP<br/>third-party"]:::app
-    skills["11 free skills<br/>SKILL.md"]:::doc
+    skills["12 free skills<br/>SKILL.md"]:::doc
     unit["Autostart unit<br/>systemd user / launchd"]:::job
     ci["CI<br/>GitHub Actions"]:::job
   end
@@ -122,7 +122,7 @@ Hi-res: [SVG](architecture/containers.svg) · [PNG 3x](architecture/containers@3
 | llama-server | app | llama.cpp, 127.0.0.1:8484 | One model, one slot, 64K context, q8 KV cache. Bound to loopback only. | [`bin/meshvault#L58-L68`](../bin/meshvault#L58-L68) |
 | ~/.meshvault | store | files | harness clone, models/*.gguf, runtime/, config.env, logs, optional pro/. | [`lib/setup.sh#L199-L201`](../lib/setup.sh#L199-L201), [`bin/meshvault#L47-L49`](../bin/meshvault#L47-L49) |
 | Hermes Agent + OMP | app | third-party | Installed by their own scripts and configured to use the local OpenAI-compatible endpoint. | [`lib/setup.sh#L221-L260`](../lib/setup.sh#L221-L260) |
-| 11 free skills | doc | SKILL.md | Plain Markdown. Skills that can send, pay, post or delete carry an Approval Gate section. | [`skills/invoice-chaser/SKILL.md`](../skills/invoice-chaser/SKILL.md), [`skills/inbox-triage/SKILL.md`](../skills/inbox-triage/SKILL.md) |
+| 12 free skills | doc | SKILL.md | Plain Markdown. Skills that can send, pay, post or delete carry an Approval Gate section. | [`skills/invoice-chaser/SKILL.md`](../skills/invoice-chaser/SKILL.md), [`skills/inbox-triage/SKILL.md`](../skills/inbox-triage/SKILL.md) |
 | Autostart unit | job | systemd user / launchd | meshvault-llm.service or ai.meshvault.llm runs `meshvault serve` at login when enabled. | [`bin/meshvault#L210-L262`](../bin/meshvault#L210-L262) |
 | CI | job | GitHub Actions | Static checks, gitleaks, sanitizer, plus a real model-only install and answer on Ubuntu 24.04. | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) |
 

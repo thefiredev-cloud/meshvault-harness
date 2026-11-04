@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/thefiredev-cloud/meshvault-harness)](https://github.com/thefiredev-cloud/meshvault-harness/releases/latest)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Kodros Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 11 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.
+Kodros Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 12 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.
 
 Status: version 1.0.1. On every push to `main` and every pull request, CI installs the pinned llama.cpp build and the 1.7B model on Ubuntu 24.04 x64 and checks that the model answers. CI skips Hermes and OMP. macOS, Fedora, Arch and WSL2 have no CI coverage.
 
@@ -18,7 +18,7 @@ This pipes the bootstrap script from GitHub into bash. Outside a checkout, [`ins
 
 Linux (Ubuntu/Debian, Fedora, Arch) and macOS (Apple Silicon and Intel). Windows through WSL2. You need `curl`, `git` and `tar`. No account, no API key. On Linux the installer uses `sudo` only if `libatomic` or `libgomp` is missing.
 
-**Free:** the MIT installer, `meshvault` CLI and 11 skills. **Paid:** the Pro skills pack is $99 once; a done-for-you install is $499 once. [Compare the tiers and buy](https://thefiredev.com/harness).
+**Free:** the MIT installer, `meshvault` CLI and 12 skills. **Paid:** the Pro skills pack is $99 once; a done-for-you install is $499 once. [Compare the tiers and buy](https://thefiredev.com/harness).
 
 ![Terminal demo: meshvault doctor checks the install, then meshvault ask gets a local-model answer](docs/assets/demo.gif)
 
@@ -48,7 +48,7 @@ On Linux, a missing `libatomic` or `libgomp` comes from your package manager (`a
 | **Local model** | Qwen3 (Apache-2.0), chosen by your RAM (table below). Served by llama.cpp on `127.0.0.1` only, port 8484 by default. | pinned llama.cpp build, sha256-verified downloads |
 | **Hermes Agent** | Chat agent with memory, skills, scheduling, and messaging gateways (Telegram, Discord, Slack and more). Set to use the local model. | Nous Research install script |
 | **OMP** | Coding agent for your terminal. Gets a `meshvault-local` provider. | oh-my-pi install script |
-| **11 free skills** | Invoice chasing, client follow-ups, inbox triage, daily standup, meeting briefs, quotes, receipts, weekly pulse, local-model prompting, on-device setup and a harness doctor. Plain Markdown. Each skill that can send, pay, post or delete tells the agent to stop and ask first. | [`skills/`](skills) (MIT) |
+| **12 free skills** | Invoice chasing, client follow-ups, inbox triage, daily standup, meeting briefs, quotes, receipts, review requests, weekly pulse, local-model prompting, on-device setup and a harness doctor. Plain Markdown. Each skill that can send, pay, post or delete tells the agent to stop and ask first. | [`skills/`](skills) (MIT) |
 | **`meshvault` command** | Start/stop the model, switch models, doctor, update, sync skills, install Pro. | [`bin/meshvault`](bin/meshvault) |
 
 The installer picks the largest model that fits your usable RAM. Override it with `--model ID`.
@@ -97,7 +97,7 @@ curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/
 |---|---|---|---|
 | Price | $0, MIT | $99 once | $499 once |
 | Installer, `meshvault` CLI, model catalog | yes | yes | yes |
-| 11 free skills | yes | yes | yes |
+| 12 free skills | yes | yes | yes |
 | Pro skills: 5 operator skills, 5 memory templates, 4 runbooks, 3 routing recipes, 4 worked examples, plus 4 harness skills | | yes | yes |
 | Pro updates | | 12 months of updated packs by email | 12 months |
 | We install it on your machine over a screen-share, tune the model, set up your first workflow | | | yes, one machine |
@@ -145,7 +145,7 @@ This repo replaces six earlier Kodros repos. [What moved where](docs/CONSOLIDATI
 <!-- arch:begin -->
 ## Architecture
 
-One command installs Hermes Agent, OMP and a local Qwen3 model, plus 11 skills that make the agent ask before it acts.
+One command installs Hermes Agent, OMP and a local Qwen3 model, plus 12 skills that make the agent ask before it acts.
 
 ```mermaid
 flowchart LR
@@ -154,7 +154,7 @@ flowchart LR
   net{{"GitHub + Hugging Face<br/>pinned, sha256"}}:::ext
   llama["Local model server<br/>llama.cpp, 127.0.0.1"]:::app
   agents["Hermes + OMP<br/>the agents"]:::app
-  skills["11 skills<br/>ask before acting"]:::doc
+  skills["12 skills<br/>ask before acting"]:::doc
   cli["meshvault CLI<br/>start, doctor, sync"]:::app
   user -->|"one command"| installer
   net -->|"downloads"| installer
