@@ -3,7 +3,7 @@ name: weekly-pulse
 description: This skill should be used when the user asks for a weekly pulse, Friday numbers, or a short summary of activity and metrics from the current week's approved source files.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 

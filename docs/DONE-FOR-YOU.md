@@ -1,6 +1,6 @@
 # Done-for-you install
 
-**$499 once, one computer you own.** Booked through https://thefiredev.com/harness (TheFireDev, a MeshVault company).
+**$499 once, one computer you own.** Booked through https://thefiredev.com/harness (TheFireDev, a Kodros company).
 
 ## What happens
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# MeshVault Harness setup. Called by install.sh. No secrets are read, written or required.
+# Kodros Harness setup. Called by install.sh. No secrets are read, written or required.
 # sudo is used only if a system library is missing, and only when you can grant it.
 set -eu
 set -o pipefail
@@ -15,7 +15,7 @@ OPT_CTX=65536; OPT_LLAMA=""; OPT_SKIP_SYSDEPS=0; OPT_FORCE=0; OPT_ENDPOINT=""; O
 
 usage() {
   cat <<EOF
-MeshVault Harness installer
+Kodros Harness installer
 
   install.sh [options]
 
@@ -83,7 +83,7 @@ OS="$(detect_os)"; ARCH="$(detect_arch)"
 case "$ARCH" in x64|arm64) ;; *) die "unsupported CPU: $ARCH" ;; esac
 [ "$(id -u)" != 0 ] || warn "running as root. A normal user account is recommended; everything installs under \$HOME."
 
-echo "${C_B}MeshVault Harness${C_0}  $(cat "$HARNESS_DIR/VERSION" 2>/dev/null || echo dev)"
+echo "${C_B}Kodros Harness${C_0}  $(cat "$HARNESS_DIR/VERSION" 2>/dev/null || echo dev)"
 say "Hermes + OMP + a local model + skills. Everything installs under your home folder."
 
 # ---------------------------------------------------------------- prerequisites

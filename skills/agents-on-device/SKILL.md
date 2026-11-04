@@ -3,13 +3,13 @@ name: agents-on-device
 description: This skill should be used when the user asks to "put an agent on this machine", "run agents on hardware I own", "install skills on-device", "gated agent on my laptop", or wants a gated agent on owned hardware without waiting for a Mac or iOS binary.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 
 # Agents on Device
 
-Put a gated agent on hardware the owner already has. MeshVault is the model plus the application plus compute. Copy the free skills onto that machine, run a read-only job first, and stop before anything sends, pays, posts, or deletes. Do not wait for a Mac DMG or iOS TestFlight build. H.R. 3633 is a bill, not law. Not legal advice.
+Put a gated agent on hardware the owner already has. Kodros is the model plus the application plus compute. Copy the free skills onto that machine, run a read-only job first, and stop before anything sends, pays, posts, or deletes. Do not wait for a Mac DMG or iOS TestFlight build. H.R. 3633 is a bill, not law. Not legal advice.
 
 ## Required Inputs
 

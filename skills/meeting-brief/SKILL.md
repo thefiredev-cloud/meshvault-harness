@@ -3,7 +3,7 @@ name: meeting-brief
 description: This skill should be used when the user asks to "prep me for the meeting", "meeting brief", "what do I need for this call", or wants a short prep pack from notes, calendar, and prior threads.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 

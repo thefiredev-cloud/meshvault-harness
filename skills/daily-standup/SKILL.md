@@ -3,7 +3,7 @@ name: daily-standup
 description: This skill should be used when the user asks for a "morning brief", "daily standup", "what happened yesterday", "what is on today", or wants a short start-of-day summary built from their notes, calendar, and task list.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 
