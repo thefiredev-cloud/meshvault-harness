@@ -4,7 +4,7 @@
     api: openai-completions
     models:
       - id: @MODEL@
-        name: MeshVault local model
+        name: Kodros local model
         input: [text]
         contextWindow: 65536
         maxTokens: 8192

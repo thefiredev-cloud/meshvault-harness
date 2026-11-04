@@ -17,7 +17,7 @@
 - validate-template-syntax.py
 - SanitizeCheckTests
 - Sample output — Inbox Triage (fictional)
-- MeshVault Harness
+- Kodros Harness
 - Architecture
 - Product copy (for thefiredev.com and meshvault.ai)
 - sanitize-check.py
@@ -100,9 +100,9 @@ Nodes (5): files_with_suffix(), main(), validate_json(), validate_toml(), valida
 Cohesion: 0.15
 Nodes (9): Sample output — Daily Standup (fictional), Act (3), Archive bucket, Reply drafts (2) — approve to send, Sample output — Inbox Triage (fictional), Draft — Northline Studio (approve to send), Sample output — Invoice Chaser (fictional), Summary (+1 more)
 
-### Community 7 - "MeshVault Harness"
+### Community 7 - "Kodros Harness"
 Cohesion: 0.17
-Nodes (12): Be honest about speed, First five minutes, How it stays private and safe, Install, License, MeshVault Harness, Options, Tiers (+4 more)
+Nodes (12): Be honest about speed, First five minutes, How it stays private and safe, Install, License, Kodros Harness, Options, Tiers (+4 more)
 
 ### Community 8 - "Architecture"
 Cohesion: 0.20

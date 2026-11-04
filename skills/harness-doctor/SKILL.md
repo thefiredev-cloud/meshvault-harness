@@ -3,13 +3,13 @@ name: harness-doctor
 description: This skill should be used when the user says the local AI "is not working", "is slow", "will not start", "won't answer", asks to "check the harness", "run doctor", "switch the local model", or asks which local model fits their machine.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 
 # Harness Doctor
 
-Diagnose and repair the MeshVault Harness on this machine: the local model server, Hermes, OMP and the skills. Read first, change second.
+Diagnose and repair the Kodros Harness on this machine: the local model server, Hermes, OMP and the skills. Read first, change second.
 
 ## Required Inputs
 

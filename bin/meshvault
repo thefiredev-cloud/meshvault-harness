@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# meshvault: manage the local model server, skills and Pro pack for the MeshVault Harness.
+# meshvault: manage the local model server, skills and Pro pack for the Kodros Harness.
 set -eu
 set -o pipefail
 
@@ -35,7 +35,7 @@ Usage: meshvault <command>
   model list         Show catalog models and which fit this machine.
   model use ID       Switch the default model (downloads it first).
   skills sync        Copy the bundled skills into Hermes and OMP.
-  skills list        List installed MeshVault skills.
+  skills list        List installed Kodros skills.
   pro install FILE   Install the Pro skills pack you bought (tar.gz).
   autostart on|off   Start the model at login (systemd user unit or launchd).
   update             Pull the latest harness, then re-sync skills.
@@ -188,7 +188,7 @@ cmd_skills() {
           for f in "$HOME/.hermes/skills/meshvault"/*/.meshvault-managed "$HOME/.omp/agent/skills"/*/.meshvault-managed; do
             [ -e "$f" ] || continue; found=1; echo "$(basename "$(dirname "$f")")  ($(dirname "$(dirname "$f")" | sed "s|$HOME|~|"))"
           done
-          [ "$found" = 1 ] || say "no MeshVault skills installed. Run: meshvault skills sync" ;;
+          [ "$found" = 1 ] || say "no Kodros skills installed. Run: meshvault skills sync" ;;
     *) die "usage: meshvault skills sync|list" ;;
   esac
 }
@@ -199,7 +199,7 @@ cmd_pro() {
   local tmp; tmp="$(mktemp -d)"
   tar -xzf "$file" -C "$tmp" || die "not a valid Pro pack archive"
   local lic root=""; lic="$(find "$tmp" -maxdepth 2 -name PRO-LICENSE.md -print -quit)"; [ -z "$lic" ] || root="$(dirname "$lic")"
-  [ -n "$root" ] && [ -d "$root/skills" ] || { rm -rf "$tmp"; die "archive has no PRO-LICENSE.md and skills/ folder. Is this the MeshVault Pro pack?"; }
+  [ -n "$root" ] && [ -d "$root/skills" ] || { rm -rf "$tmp"; die "archive has no PRO-LICENSE.md and skills/ folder. Is this the Kodros Pro pack?"; }
   rm -rf "$MV_HOME/pro"; mkdir -p "$MV_HOME/pro"
   cp -R "$root/." "$MV_HOME/pro/"
   rm -rf "$tmp"
@@ -218,7 +218,7 @@ cmd_autostart() {
         mkdir -p "$(dirname "$unit")"
         cat > "$unit" <<EOF
 [Unit]
-Description=MeshVault local model server (127.0.0.1:$MV_PORT)
+Description=Kodros local model server (127.0.0.1:$MV_PORT)
 
 [Service]
 ExecStart=$SELF serve
@@ -268,7 +268,7 @@ cmd_doctor() {
     local label="$1"; shift
     if "$@" >/dev/null 2>&1; then ok "$label"; else warn "$label FAILED"; bad=1; fi
   }
-  say "MeshVault Harness $VERSION on $(detect_os)/$(detect_arch), $(ram_gb) GB RAM"
+  say "Kodros Harness $VERSION on $(detect_os)/$(detect_arch), $(ram_gb) GB RAM"
   if [ "${MV_MODE:-bundled}" = bundled ]; then server_healthy || { say "starting model server..."; cmd_start || bad=1; }; fi
   check "local model answers" sh -c "curl -fsS --max-time 300 '$(api_base)/chat/completions' -H 'Content-Type: application/json' -d '{\"model\":\"${MV_MODEL_NAME:-$MV_ALIAS}\",\"max_tokens\":8,\"chat_template_kwargs\":{\"enable_thinking\":false},\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' | grep -q choices"
   if have hermes; then check "hermes installed ($(hermes --version 2>/dev/null | head -n1))" hermes --version

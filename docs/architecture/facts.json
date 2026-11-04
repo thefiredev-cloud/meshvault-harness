@@ -39,7 +39,7 @@
   ]
  ],
  "readme": "README.md",
- "readme_first_paragraph": "MeshVault Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 11 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.",
+ "readme_first_paragraph": "Kodros Harness installs Hermes Agent, OMP and a local Qwen3 model on your computer with one command. It is for people who want an AI agent that runs on hardware they own, with no account and no API key. It also installs 11 Markdown skills that tell the agent to ask before it sends, pays, posts or deletes.",
  "top_dirs": [
   ".github",
   "bin",
