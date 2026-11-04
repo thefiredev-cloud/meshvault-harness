@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# MeshVault Harness: one-command installer (Linux and macOS).
+# Kodros Harness: one-command installer (Linux and macOS).
 #
 #   curl -fsSL https://raw.githubusercontent.com/thefiredev-cloud/meshvault-harness/main/install.sh | bash
 #
@@ -35,5 +35,5 @@ else
   git clone --quiet "$REPO" "$DEST"
   git -C "$DEST" checkout --quiet "$REF"
 fi
-echo "MeshVault Harness $REF -> $DEST"
+echo "Kodros Harness $REF -> $DEST"
 exec bash "$DEST/lib/setup.sh" "$@"
