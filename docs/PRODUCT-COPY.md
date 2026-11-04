@@ -1,4 +1,4 @@
-# Product copy (for thefiredev.com and meshvault.ai)
+# Product copy (for thefiredev.com and kodros.ai)
 
 Use as written or tighten. Every claim below is true of the shipped installer.
 
