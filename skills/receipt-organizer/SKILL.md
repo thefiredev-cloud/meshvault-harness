@@ -3,7 +3,7 @@ name: receipt-organizer
 description: This skill should be used when the user asks to sort receipts, prepare a receipt filing plan, or add approved receipts to a running expense spreadsheet without moving files or editing the sheet before approval.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 

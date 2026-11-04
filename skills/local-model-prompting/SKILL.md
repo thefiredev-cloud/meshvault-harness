@@ -3,7 +3,7 @@ name: local-model-prompting
 description: This skill should be used when a task will run on a small local model and needs reliable output, such as "make this work with the local model", "the local model keeps getting it wrong", "shorten this prompt", or before delegating work to a 1B to 8B model.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 

@@ -3,7 +3,7 @@ name: quote-builder
 description: This skill should be used when the user asks to build, price, or draft a quote from a customer request and an approved price list, or asks for a quote in the owner's approved voice without sending it.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 

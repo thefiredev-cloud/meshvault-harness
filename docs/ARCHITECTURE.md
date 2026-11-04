@@ -1,4 +1,4 @@
-# MeshVault Harness: architecture
+# Kodros Harness: architecture
 
 <!-- arch-kit:generated -->
 
@@ -7,7 +7,7 @@
 
 ## 1. Purpose
 
-MeshVault Harness gives a person an AI agent that runs on their own computer with no account and no API key. `install.sh` clones this repo and `lib/setup.sh` downloads a pinned llama.cpp server and one sha256-checked Qwen3 model, then installs Hermes Agent and OMP with their own official installers and points both at the local model on 127.0.0.1. 11 Markdown skills tell the agent to draft, show and wait before it sends, pays, posts or deletes. A `meshvault` command starts and stops the model, runs a doctor, syncs skills and installs the paid Pro pack.
+Kodros Harness gives a person an AI agent that runs on their own computer with no account and no API key. `install.sh` clones this repo and `lib/setup.sh` downloads a pinned llama.cpp server and one sha256-checked Qwen3 model, then installs Hermes Agent and OMP with their own official installers and points both at the local model on 127.0.0.1. 11 Markdown skills tell the agent to draft, show and wait before it sends, pays, posts or deletes. A `meshvault` command starts and stops the model, runs a doctor, syncs skills and installs the paid Pro pack.
 
 ## 2. Whiteboard view
 

@@ -3,7 +3,7 @@ name: client-followup
 description: This skill should be used when the user asks to "follow up with clients", "nudge quiet leads", "who went silent", "re-engage stalled deals", or wants polite check-ins drafted without sending before approval.
 license: MIT
 metadata:
-  author: MeshVault
+  author: Kodros
   version: "1.0.0"
 ---
 
