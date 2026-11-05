@@ -1,7 +1,7 @@
 ---
 name: invoice-chaser
 description: This skill should be used when the user asks to "chase invoices", "who still owes us", "send payment reminders", or wants overdue receivables nudged politely without anything sending before approval.
-license: MIT
+license: Proprietary (see LICENSE)
 metadata:
   author: Kodros
   version: "1.0.0"

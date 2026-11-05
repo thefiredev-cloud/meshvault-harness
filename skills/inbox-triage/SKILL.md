@@ -1,7 +1,7 @@
 ---
 name: inbox-triage
 description: This skill should be used when the user asks to "triage my inbox", "what needs a reply", "clean up my email", or wants unread mail sorted into act, reply, and archive with a short summary.
-license: MIT
+license: Proprietary (see LICENSE)
 metadata:
   author: Kodros
   version: "1.0.0"

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+Docs: README, tier docs and installer output now match the LICENSE file (all rights reserved, no MIT claim) and drop the Stripe buy links and the thefiredev.com/harness link; orders go by email to tanner@kodros.ai. Skill front matter uses `license: Proprietary (see LICENSE)`. Removed `docs/PRODUCT-COPY.md`.
+
 Fix: `install.sh --dry-run` no longer creates `~/.meshvault`; the disk-space check reads the nearest existing parent folder instead of creating the target. Fix: `bin/meshvault` failed when started by a relative path such as `bin/meshvault` or `../bin/meshvault`; it now resolves its own location from any working directory.
 
 ## 1.0.1 (2026-10-06)
