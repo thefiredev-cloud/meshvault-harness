@@ -173,6 +173,6 @@ flowchart LR
 
 ## License
 
-All rights reserved. See [LICENSE](LICENSE). The Pro pack has its own license. Hermes, OMP and llama.cpp are separate projects under their own licenses (MIT); Qwen3 weights are Apache-2.0.
+All rights reserved. See [LICENSE](LICENSE). The Pro pack has its own license. Hermes, OMP and llama.cpp are separate projects under their own licenses. Qwen3 weights are Apache-2.0.
 
 Contact and licensing questions: [tanner@kodros.ai](mailto:tanner@kodros.ai).
