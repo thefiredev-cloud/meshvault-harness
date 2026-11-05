@@ -21,4 +21,4 @@ Nothing listens on your LAN by default. If you later enable a Hermes messaging g
 
 ## Reporting a problem
 
-Email contact@meshvault.ai with "security" in the subject. Do not post exploit details in a public issue first.
+Email tanner@kodros.ai with "security" in the subject. Do not post exploit details in a public issue first.

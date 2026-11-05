@@ -1,6 +1,6 @@
 # Done-for-you install
 
-**$499 once, one computer you own.** Booked through https://thefiredev.com/harness (TheFireDev, a Kodros company).
+**$499 once, one computer you own.** Book by email: tanner@kodros.ai.
 
 ## What happens
 

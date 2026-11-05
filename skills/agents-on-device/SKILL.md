@@ -1,7 +1,7 @@
 ---
 name: agents-on-device
 description: This skill should be used when the user asks to "put an agent on this machine", "run agents on hardware I own", "install skills on-device", "gated agent on my laptop", or wants a gated agent on owned hardware without waiting for a Mac or iOS binary.
-license: MIT
+license: Proprietary (see LICENSE)
 metadata:
   author: Kodros
   version: "1.0.0"

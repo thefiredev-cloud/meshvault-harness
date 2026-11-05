@@ -1,7 +1,7 @@
 ---
 name: harness-doctor
 description: This skill should be used when the user says the local AI "is not working", "is slow", "will not start", "won't answer", asks to "check the harness", "run doctor", "switch the local model", or asks which local model fits their machine.
-license: MIT
+license: Proprietary (see LICENSE)
 metadata:
   author: Kodros
   version: "1.0.0"

@@ -303,7 +303,7 @@ Heads up: on a CPU-only machine the first Hermes reply can take a few minutes wh
 Hermes's long prompt once. Later replies are much faster. Apple Silicon and GPUs start in seconds.
 Manage: meshvault status | start | stop | doctor | model list | skills list
 
-Free core is MIT. Pro skills pack and done-for-you install: https://github.com/thefiredev-cloud/meshvault-harness#tiers
+Pro skills pack and done-for-you install: https://github.com/thefiredev-cloud/meshvault-harness#tiers
 EOF
 if [ "${NEED_PATH_NOTE:-0}" = 1 ]; then
   echo

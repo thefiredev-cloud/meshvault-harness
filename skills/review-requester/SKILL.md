@@ -1,7 +1,7 @@
 ---
 name: review-requester
 description: This skill should be used when the user asks to "ask for a review", "get reviews from happy clients", "who should I ask for a review", "request a testimonial", or wants review asks drafted at the right moment and held for approval.
-license: MIT
+license: Proprietary (see LICENSE)
 metadata:
   author: Kodros
   version: "1.0.0"
